@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bl ",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "l": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "result": {
+    "item": "betadrive:guidebook",
+    "count": 1
+  }
+}
+
