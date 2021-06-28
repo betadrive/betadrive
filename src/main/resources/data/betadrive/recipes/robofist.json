@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cd ",
+    "cnn",
+    "cd "
+  ],
+  "key": {
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "c": {
+      "item": "betadrive:circuit"
+    },
+    "n": {
+      "item": "minecraft:netherite_scrap"
+    }
+  },
+  "result": {
+    "item": "betadrive:robofist",
+    "count": 1
+  }
+}
+
