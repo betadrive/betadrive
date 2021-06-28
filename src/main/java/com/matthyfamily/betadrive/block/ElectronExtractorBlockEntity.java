@@ -13,7 +13,7 @@ public class ElectronExtractorBlockEntity extends BlockEntity implements Tickabl
 
     @Override
     public void tick() {
-        energy += 512;
+        energy += Betadrive.cfg.getChargePT();
     }
     public int getEnergy() {
         return energy;

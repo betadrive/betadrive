@@ -5,9 +5,7 @@ import net.minecraft.client.MinecraftClient;
 
 public class BetadriveConfig extends ConfigFile {
     public void becomeAndroid(AndroidPlayer ap) {
-        if(!isExistant()) {
-            create();
-        }
+        create();
         try {
             System.out.println(!read().toJSONString().contains(ap.getName()));
             if(!read().toJSONString().contains(ap.getName())) {
@@ -18,9 +16,7 @@ public class BetadriveConfig extends ConfigFile {
         }
     }
     public void unBecomeAndroid(AndroidPlayer ap) {
-        if(!isExistant()) {
-            create();
-        }
+        create();
         try {
             if(read().toJSONString().contains(ap.getName())) {
                 this.overwrite();
@@ -29,6 +25,24 @@ public class BetadriveConfig extends ConfigFile {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public int getExplosionSize() {
+        create();
+        try {
+            return ((Long) read().get("explosionSize")).intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 32;
+    }
+    public int getChargePT() {
+        create();
+        try {
+            return ((Long) read().get("chargePerTick")).intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 512;
     }
     public AndroidPlayer getAPFromIGN(String name) {
         return new AndroidPlayer(MinecraftClient.getInstance().getServer().getPlayerManager().getPlayer(name));

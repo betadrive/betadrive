@@ -13,13 +13,13 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class ConfigFile {
-    public String data = "{\"dat\":[]}";
+    public String data = "{\"dat\":[],\"explosionSize\":32,\"chargePerTick\":512}";
     public String getPath() {
         return (MinecraftClient.getInstance().getServer().getRunDirectory().getPath()+"\\saves\\"+
                 (
                         (MinecraftClient.getInstance().getServer().getSavePath(WorldSavePath.ROOT).toString())
                                 .replace(MinecraftClient.getInstance().getServer().getRunDirectory().getPath()+"\\saves\\", "")
-                +"/betadrive")).replace("\\.\\", "\\").replace("\\./", "\\").replace("/.\\", "\\").replace("/./", "\\");
+                                +"/betadrive")).replace("\\.\\", "\\").replace("\\./", "\\").replace("/.\\", "\\").replace("/./", "\\");
         /*if(MinecraftClient.getInstance().getServer() == null) {
             return MinecraftClient.getInstance().getServer().getRunDirectory().getPath()+"/saves/"+MinecraftClient.getInstance().world.getServer().getName()+"/betadrive";
         }  else {

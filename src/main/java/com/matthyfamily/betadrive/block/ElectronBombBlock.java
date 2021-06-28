@@ -1,5 +1,6 @@
 package com.matthyfamily.betadrive.block;
 
+import com.matthyfamily.betadrive.Betadrive;
 import com.matthyfamily.betadrive.util.RebornBasedExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -30,7 +31,7 @@ public class ElectronBombBlock extends Block implements BlockEntityProvider {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(((ElectronBombBlockEntity) world.getBlockEntity(pos)).getCE() >= 1000000) {
-            RebornBasedExplosion rbe = new RebornBasedExplosion(pos, world, 19);
+            RebornBasedExplosion rbe = new RebornBasedExplosion(pos, world, Betadrive.cfg.getExplosionSize());
             rbe.explode();
         }
         return ActionResult.SUCCESS;
