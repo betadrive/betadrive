@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TDT",
+    "DeD",
+    "TDT"
+  ],
+  "key": {
+    "T": {
+      "item": "betadrive:advanced_circuit"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "e": {
+      "item": "betadrive:electron_extractor"
+    }
+  },
+  "result": {
+    "item": "betadrive:electron_bomb",
+    "count": 1
+  }
+}
+

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TDT",
+    "DeD",
+    "TDT"
+  ],
+  "key": {
+    "T": {
+      "item": "betadrive:circuit"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "e": {
+      "item": "minecraft:netherite_scrap"
+    }
+  },
+  "result": {
+    "item": "betadrive:electron_extractor",
+    "count": 1
+  }
+}
+

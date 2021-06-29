@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "dRd",
+    "RnR",
+    "dRd"
+  ],
+  "key": {
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "n": {
+      "item": "betadrive:advanced_circuit"
+    }
+  },
+  "result": {
+    "item": "betadrive:red_pill",
+    "count": 1
+  }
+}
+
