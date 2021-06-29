@@ -1,6 +1,5 @@
 package com.matthyfamily.betadrive.item;
 
-import com.matthyfamily.betadrive.block.BetadriveBlocks;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 

@@ -57,7 +57,7 @@ public class ConfigFile {
             }
         }
     }
-    public JSONObject read() throws Exception {
+    public JSONObject read() {
         create();
         try {
             return (JSONObject) JSONValue.parse(readFileAsString(getPath()+".json"));
@@ -66,7 +66,7 @@ public class ConfigFile {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        throw new Exception("Something went wrong. Contact betadrive devs with code 0001");
+        return null;
     }
     public void append(String str) {
         JSONObject jsonObject = null;

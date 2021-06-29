@@ -1,8 +1,10 @@
 package com.matthyfamily.betadrive.biome;
 
 import com.matthyfamily.betadrive.block.BetadriveBlocks;
+import com.matthyfamily.betadrive.entity.BetadriveEntities;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -32,8 +34,7 @@ public class RobotDumpBiome {
         // Vanilla configured features for biomes are defined in DefaultBiomeFeatures.
 
         SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
-        DefaultBiomeFeatures.addFarmAnimals(spawnSettings);
-        DefaultBiomeFeatures.addMonsters(spawnSettings, 95, 5, 100);
+        spawnSettings.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(BetadriveEntities.ANDROID, 80, 1, 3));
 
         GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
         generationSettings.surfaceBuilder(DUMP_SURFACE_BUILDER);

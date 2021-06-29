@@ -19,6 +19,7 @@ public class MeterHUD extends HUDStat {
     private World world;
     private int initial;
     private boolean cleared;
+    public void clear() {cleared = true;}
     public MeterHUD(boolean isCONVERTING, World worlda) {
         this.initial = (int) worlda.getTime();
         this.ic = isCONVERTING;
@@ -58,7 +59,7 @@ public class MeterHUD extends HUDStat {
             e.printStackTrace();
         }
         try {
-            if(Betadrive.cfg.read().toJSONString().contains(MinecraftClient.getInstance().player.getName().asString())){
+            if(Betadrive.cfg.read().toJSONString().contains(MinecraftClient.getInstance().player.getName().asString()) && !cleared){
                 if (client.player == null) {
                     System.out.println("player is null");
                     return;

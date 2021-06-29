@@ -4,12 +4,14 @@
   "item.betadrive.absorption_upgrade": "Absorption Upgrade",
   "item.betadrive.guidebook": "On the topic of Androids",
   "item.betadrive.circuit": "Printed Circuit Board",
+  "item.betadrive.advanced_circuit": "Advanced Printed Circuit Board",
   "item.betadrive.robofist": "Robofist",
   "block.betadrive.electron_extractor": "Electron Extractor",
   "block.betadrive.electron_bomb": "Electron Bomb",
   "block.betadrive.robot_waste": "Robot Waste",
   "block.betadrive.compacted_robot_waste": "Compacted Robot Waste",
   "block.betadrive.metal_scrap": "Metal Scrap",
-  "biome.betadrive.robot_dump": "Robot Dump"
+  "biome.betadrive.robot_dump": "Robot Dump",
+  "entity.betadrive.android": "Rogue Android"
 }
 

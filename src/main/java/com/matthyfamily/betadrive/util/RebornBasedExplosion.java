@@ -57,8 +57,6 @@ public class RebornBasedExplosion extends Explosion {
     }
 
     public void explode() {
-        StopWatch watch = new StopWatch();
-        watch.start();
         for (int tx = -radius; tx < radius + 1; tx++) {
             for (int ty = -radius; ty < radius + 1; ty++) {
                 for (int tz = -radius; tz < radius + 1; tz++) {

@@ -1,6 +1,5 @@
 package com.matthyfamily.betadrive.item;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -8,8 +7,6 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-
-import java.util.Random;
 
 public class RobofistItem extends SwordItem {
     public RobofistItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
