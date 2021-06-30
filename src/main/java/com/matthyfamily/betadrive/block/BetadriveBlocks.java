@@ -1,5 +1,6 @@
 package com.matthyfamily.betadrive.block;
 
+import com.matthyfamily.astar.block.BlockRegistrar;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
@@ -12,8 +13,8 @@ public class BetadriveBlocks {
     public static Block COMPACTED_ROBOT_WASTE_BLOCK;
     public static Block METAL_SCRAP;
     public static void init() {
-        ROBOT_WASTE_BLOCK = Registry.register(Registry.BLOCK, "betadrive:robot_waste", new Block(FabricBlockSettings.of(Material.METAL)));
-        COMPACTED_ROBOT_WASTE_BLOCK = Registry.register(Registry.BLOCK, "betadrive:compacted_robot_waste", new Block(FabricBlockSettings.of(Material.METAL)));
-        METAL_SCRAP = Registry.register(Registry.BLOCK, "betadrive:metal_scrap", new Block(FabricBlockSettings.of(Material.METAL)));
+        ROBOT_WASTE_BLOCK = BlockRegistrar.registerSimple("betadrive:robot_waste");
+        COMPACTED_ROBOT_WASTE_BLOCK = BlockRegistrar.registerSimple("betadrive:compacted_robot_waste");
+        METAL_SCRAP = BlockRegistrar.registerSimple("betadrive:metal_scrap");
     }
 }
