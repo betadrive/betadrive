@@ -32,8 +32,6 @@ dependencies {
 	// You may need to force-disable transitiveness on them.
 
 	implementation include('com.googlecode.json-simple:json-simple:1.1.1')
-	implementation files('libs/astar-api-1.1.0.jar')
-
 
 }
 
