@@ -2,14 +2,11 @@ package dev.matthy.betadrive.item;
 
 import dev.matthy.betadrive.Betadrive;
 import dev.matthy.betadrive.hud.MeterHUD;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-
-import java.awt.image.renderable.RenderContext;
 
 public class RedPillItem extends Item { // betadrive:red_pill
     public RedPillItem(Settings settings) {
@@ -18,7 +15,7 @@ public class RedPillItem extends Item { // betadrive:red_pill
     @Override
     public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
         try {
-            if(!Betadrive.cfg.data.contains(playerEntity.getName().getString())) {
+            if(!Betadrive.cfg.hasUsername(playerEntity.getName().getString())) {
                 Betadrive.mainHud = new MeterHUD(true, world);
             }
         } catch (Exception e) {

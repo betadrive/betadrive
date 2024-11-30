@@ -12,6 +12,7 @@ import java.util.function.Function;
 public class BetadriveItems {
     public static Item CIRCUIT = register("circuit", Item::new, new Item.Settings()); // material, betadrive:circuit
     public static Item ADVANCED_CIRCUIT;
+    public static Item BATTERY = register("battery", BatteryItem::new, new Item.Settings());
     public static Item RED_PILL = register("red_pill", RedPillItem::new, new Item.Settings()); // used to become an android, betadrive:red_pill
     public static Item BLUE_PILL = register("blue_pill", BluePillItem::new, new Item.Settings()); // used to not become an android, betadrive:blue_pill
     public static Item ROBOFIST = register("robofist", properties -> new RobofistItem(ToolMaterial.NETHERITE, 20, 4.0F,properties), new Item.Settings()); // weapon, betadrive:robofist

@@ -7,11 +7,13 @@ public class AndroidPlayer {
     private boolean isAndroid;
     private String name;
     public boolean isHudDone;
+    private float battery;
     public AndroidPlayer(PlayerEntity playerEntity) {
         this.player = playerEntity;
         this.isAndroid = true;
         this.isHudDone = false;
         this.name = player.getName().getString();
+        this.battery = 100;
     }
     public boolean isAndroid() {
         return this.isAndroid;

@@ -15,7 +15,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class ConfigFile {
-    public String data = "{\"dat\":[]]";
+    public static final String initData = "{\"dat\":[],\"props\":{}}";
+    public String data = initData;
     public JSONObject cfg;
     public String savename;
     public void setSavename(String sn) {
@@ -29,6 +30,7 @@ public class ConfigFile {
         Betadrive.mainHud.cfg = cfg;
     }
     public void loadFromDisk() {
+        data = readFileAsString(getPath());
         data = readFileAsString(getPath());
         cfg = (JSONObject) JSONValue.parse(data);
     }
@@ -96,6 +98,30 @@ public class ConfigFile {
             e.printStackTrace();
         }
         refreshConfig();
+    }
+    public void setBatteryLevel(String ign, double batteryLevel) { // add to dat/android list
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = read();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject object = ((JSONObject) jsonObject.get("props"));
+        JSONObject playerProps = ((JSONObject) object.getOrDefault(ign, new JSONObject()));
+        playerProps.put("battery", batteryLevel);
+        object.put(ign, playerProps);
+        jsonObject.put("props",  object);
+        try {
+            Files.write(Paths.get(getPath()), Arrays.asList(jsonObject.toJSONString().split("\n")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        refreshConfig();
+    }
+    public double getBatteryLevel(String ign) {
+        JSONObject readResult = read();
+        if(readResult == null) readResult = new JSONObject();
+        return (double) (((JSONObject) (((JSONObject) readResult.getOrDefault("props", new JSONObject())).getOrDefault(ign, new JSONObject()))).getOrDefault("battery", 100d));
     }
     public void remove(String str) { // remove from dat/android list
         JSONObject jsonObject = null;

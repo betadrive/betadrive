@@ -3,6 +3,7 @@ package dev.matthy.betadrive.hud;
 import dev.matthy.betadrive.android.AndroidPlayer;
 import dev.matthy.betadrive.Betadrive;
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.matthy.betadrive.config.ConfigFile;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -26,7 +27,7 @@ public class MeterHUD extends HUDStat implements HudRenderCallback {
     private World world; // approx. = MinecraftClient.getInstance().world
     private int initial; // start time for converting
     public boolean cleared = false; // blue pill used? set with .clear()
-    public String cfgJsonString = Betadrive.cfg.read().toJSONString();
+    public String cfgJsonString = Betadrive.cfg.data;
     private AndroidPlayer androidPlayer; // user's AndroidPlayer
     public boolean finishedConverting = false; // are we done with the cliche animation?
     public String playerName; // user's IGN
@@ -44,12 +45,12 @@ public class MeterHUD extends HUDStat implements HudRenderCallback {
         EVENT.register((ctx, ctr) -> this.onHudRender(ctx, ctr));
     }
 
-    public void loadFromString() { // load cfg to this obj
-        cfgJsonString = Betadrive.cfg.read().toJSONString();
+    public void loadFromString() { // load cfg to this obj\
+        cfgJsonString = Betadrive.cfg.read() == null ? ConfigFile.initData : Betadrive.cfg.read().toJSONString();
         cfg = (JSONObject) JSONValue.parse(cfgJsonString);
     }
     public boolean hasUsername(String ign) { // does the cfg file have a username?
-        loadFromString();
+        try { loadFromString(); } catch(Exception e) {}
         if(cfg == null) return false;
         return ((JSONArray) cfg.getOrDefault("dat", new JSONArray())).contains(ign);
     }
@@ -93,7 +94,7 @@ public class MeterHUD extends HUDStat implements HudRenderCallback {
         if(!hasUsername(playerName) || cleared || client.player == null) return; // checks to make sure you *are* an android, haven't taken the blue pill, and aren't null (somehow)
         RenderSystem.enableBlend();
 
-        printText("[LVL=" + client.player.experienceLevel + " MPS=" + String.valueOf(playerSpeed(client.player))+ "]", 12, 12, 0xA9E2FB, drawContext); // exp level, and speed
+        printText("[LVL=" + client.player.experienceLevel + " MPS=" + playerSpeed(client.player) + " BAT="+ (int) Betadrive.cfg.getBatteryLevel(client.player.getName().getString()) +"]", 12, 12, 0xA9E2FB, drawContext); // exp level, and speed
     }
     @Override
     public void onHudRender(DrawContext drawContext, RenderTickCounter renderTickCounter) { // go through each of the renders. if the first doesn't run, it will return so we don't need to worry about double-rendering 2 different UIs
