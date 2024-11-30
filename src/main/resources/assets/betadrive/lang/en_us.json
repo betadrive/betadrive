@@ -4,6 +4,7 @@
   "item.betadrive.circuit": "Printed Circuit Board",
   "item.betadrive.advanced_circuit": "Advanced Printed Circuit Board",
   "item.betadrive.robofist": "Robofist",
-  "item.betadrive.battery": "Battery"
+  "item.betadrive.battery": "Battery",
+  "itemGroup.betadrive": "Betadrive"
 }
 

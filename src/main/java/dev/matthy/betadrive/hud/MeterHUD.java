@@ -4,6 +4,9 @@ import dev.matthy.betadrive.android.AndroidPlayer;
 import dev.matthy.betadrive.Betadrive;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.matthy.betadrive.config.ConfigFile;
+import dev.matthy.betadrive.hud.texts.BatteryText;
+import dev.matthy.betadrive.hud.texts.LevelText;
+import dev.matthy.betadrive.hud.texts.SpeedText;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -32,7 +35,6 @@ public class MeterHUD extends HUDStat implements HudRenderCallback {
     public boolean finishedConverting = false; // are we done with the cliche animation?
     public String playerName; // user's IGN
     public void clear() {cleared = true; }
-    private final Vec3d origin = new Vec3d(0,0,0);
     public MeterHUD(boolean isCONVERTING, World worlda) {
         loadFromString();
         androidPlayer = new AndroidPlayer(MinecraftClient.getInstance().player);
@@ -83,18 +85,12 @@ public class MeterHUD extends HUDStat implements HudRenderCallback {
         }
         client.player.getHungerManager().setFoodLevel(19); // fill hunger
     }
-    public double playerSpeed(PlayerEntity player) { // this sucks! really bad! Doesn't account for elytra/creative flight/minecart/boat/etc.
-        if((int) (client.player.getVelocity().distanceTo(origin)*1000) == 78) return 0; // origin is a Vec3d = (0,0,0), checks if you're not moving
-        int speed = Math.round(1000 * client.player.getMovementSpeed()); // only shows if running or not, but even if you're not moving it shows as 100
-        if(speed == 100) return 4.317; // walking
-        if(speed == 130) return 5.612; // running
-        return 0; // probably shouldn't happen!
-    }
+
     public void hudAnimation(DrawContext drawContext, RenderTickCounter renderTickCounter) { // when you *are* an android and we're just rendering the HUD
         if(!hasUsername(playerName) || cleared || client.player == null) return; // checks to make sure you *are* an android, haven't taken the blue pill, and aren't null (somehow)
         RenderSystem.enableBlend();
-
-        printText("[LVL=" + client.player.experienceLevel + " MPS=" + playerSpeed(client.player) + " BAT="+ (int) Betadrive.cfg.getBatteryLevel(client.player.getName().getString()) +"]", 12, 12, 0xA9E2FB, drawContext); // exp level, and speed
+        String hudText = HUDText.build(new SpeedText(), new LevelText(), new BatteryText());
+        printText(hudText, 12, 12, 0xA9E2FB, drawContext);
     }
     @Override
     public void onHudRender(DrawContext drawContext, RenderTickCounter renderTickCounter) { // go through each of the renders. if the first doesn't run, it will return so we don't need to worry about double-rendering 2 different UIs

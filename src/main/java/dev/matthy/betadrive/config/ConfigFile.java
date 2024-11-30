@@ -99,7 +99,7 @@ public class ConfigFile {
         }
         refreshConfig();
     }
-    public void setBatteryLevel(String ign, double batteryLevel) { // add to dat/android list
+    public void setBatteryLevel(String ign, double batteryLevel) { // set battery (0-100) in props:<ign>:battery
         JSONObject jsonObject = null;
         try {
             jsonObject = read();

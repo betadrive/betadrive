@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class BatteryItem extends Item { // betadrive:battery
+
     private Random RANDOM = new Random();
 
     public BatteryItem(Settings settings) {
