@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "dLd",
+    "LnL",
+    "dLd"
+  ],
+  "key": {
+    "d": "minecraft:diamond",
+    "L": "minecraft:lapis_block",
+    "n": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "id": "betadrive:blue_pill",
+    "count": 1
+  }
+}
+

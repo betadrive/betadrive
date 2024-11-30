@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.matthy.betadrive.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+      "InGameHudMixin",
+      "MinecraftClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

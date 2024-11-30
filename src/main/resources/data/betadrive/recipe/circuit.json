@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "wrw",
+    "rir",
+    "wrw"
+  ],
+  "key": {
+    "w": "#minecraft:planks",
+    "r": "minecraft:redstone",
+    "i": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "betadrive:circuit",
+    "count": 1
+  }
+}
+
