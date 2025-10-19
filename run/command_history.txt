@@ -1,0 +1,6 @@
+/gamemode survival
+/data get entity @s
+/data get entity @s betadrive
+/gamemode creative
+/data get entity @s
+/tick sprint 1d

@@ -1,0 +1,74 @@
+package dev.matthy.betadrive.hud;
+
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethodStage;
+import com.mojang.blaze3d.systems.RenderSystem;
+import dev.matthy.betadrive.Betadrive;
+import dev.matthy.betadrive.BetadriveConfig;
+import dev.matthy.betadrive.android.AndroidPlayer;
+import dev.matthy.betadrive.client.BetadriveClient;
+import dev.matthy.betadrive.hud.texts.BatteryText;
+import dev.matthy.betadrive.hud.texts.LevelText;
+import dev.matthy.betadrive.hud.texts.SpeedText;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
+import net.minecraft.world.World;
+
+import java.util.UUID;
+
+@Environment(EnvType.CLIENT)
+public class MeterHUD extends HUDStat {
+    /*private boolean ic; // is converting
+    private final MinecraftClient client; // = MinecraftClient.getInstance()
+    private final World world; // approx. = MinecraftClient.getInstance().world
+    private final int initial; // start time for converting
+    public boolean cleared = false; // blue pill used? set with .clear()
+    public boolean finishedConverting = false; // are we done with the cliché animation?
+    public UUID playerName; // user's UUID*/
+    public static boolean clearAnimation = false;
+    public static long startTime = 0;
+    static boolean getStartTimeFlag = true;
+    public static void transformationAnimation(DrawContext drawContext, RenderTickCounter renderTickCounter) { // text popup on screen that appears when taking red pill/converting to android
+        if(getStartTimeFlag) {
+            startTime = Util.getMeasuringTimeMs()/50;
+            getStartTimeFlag = false;
+        }
+        int cyclesDone = (int) (Util.getMeasuringTimeMs()/50 - startTime);
+        if(Betadrive.isAndroid || !Betadrive.isConverting || cyclesDone == 400) return;
+        if(cyclesDone > 0  && cyclesDone < 160) { // jank method for delays, each value *should* correspond to ticks?
+            printText("BIOLOGICAL PRESENCE DETECTED.", 36, 50, 0xFFA9E2FB, drawContext);
+            printText("RELEASING NANOBOTS TO CONVERT BIOLOGICAL PRESENCE", 36, 60, 0xFFA9E2FB, drawContext);
+            printText("TO ANDROID.", 36, 70, 0xFFA9E2FB, drawContext);
+        } else if(cyclesDone > 160 && cyclesDone < 280) {
+            printText("CONVERTING ALL BODY PARTS...", 36, 50, 0xFFA9E2FB, drawContext);
+            printText("...done.", 36, 60, 0xFFA9E2FB, drawContext);
+        } else if(cyclesDone > 280 && cyclesDone < 340) {
+            printText("CONVERSION PROCESSING", 36, 50, 0xFFA9E2FB, drawContext);
+            printText("BRAIN CONVERTING TO PROCESSING UNIT..", 36, 60, 0xFFA9E2FB, drawContext);
+        } else if(cyclesDone > 340 && cyclesDone < 360) {
+            printText("...done.", 36, 50, 0xFFA9E2FB, drawContext);
+            printText("Body conversion complete.", 36, 60, 0xFFA9E2FB, drawContext);
+            BetadriveConfig.becomeAndroid(); // set cfg
+            Betadrive.isConverting=false; // disable isConverting
+            getStartTimeFlag = true;
+        }
+    }
+
+
+    public static void hudAnimation(DrawContext drawContext) { // when you *are* an android, and we're just rendering the HUD
+        if(!Betadrive.isAndroid || clearAnimation || Betadrive.isConverting) return; // checks to make sure you *are* an android, haven't taken the blue pill, and aren't null (somehow)
+        String hudText = HUDText.build(new SpeedText(), new LevelText(), new BatteryText());
+        printText(hudText, 12, 12, 0xFFA9E2FB, drawContext);
+    }
+    public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
+        if(Betadrive.isConverting) transformationAnimation(drawContext, renderTickCounter);
+        hudAnimation(drawContext);
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " l ",
+    "iri",
+    "iri"
+  ],
+  "key": {
+    "r": "minecraft:redstone",
+    "l": "minecraft:lapis_lazuli",
+    "i": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "betadrive:battery",
+    "count": 1
+  }
+}
+

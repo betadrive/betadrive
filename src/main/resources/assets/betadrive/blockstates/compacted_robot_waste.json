@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "betadrive:block/compacted_robot_waste" }
+  }
+}
