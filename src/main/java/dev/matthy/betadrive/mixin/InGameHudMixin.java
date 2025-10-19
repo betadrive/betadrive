@@ -1,5 +1,7 @@
 package dev.matthy.betadrive.mixin;
 
+import dev.matthy.betadrive.Betadrive;
+import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.hud.MeterHUD;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,7 +25,7 @@ public abstract class InGameHudMixin {
      */
     @Overwrite
     private void renderCrosshair(DrawContext context, RenderTickCounter tickCounter) {
-//        if(BetadriveClient.mainHud == null || MeterHUD.clearAnimation || (isHudRendering && Betadrive.isConverting)) return; // are we not an android, or is the hud already running?
+        if(MeterHUD.clearAnimation || (isHudRendering && Betadrive.isConverting) || !Betadrive.isAndroid) return; // are we not an android, or is the hud already running?
         assert MinecraftClient.getInstance().world != null;
 //        isHudRendering = true; // don't make *another* mainHud object for no reason
 //        Betadrive.isConverting = true;

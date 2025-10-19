@@ -1,27 +1,14 @@
 package dev.matthy.betadrive.hud;
 
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethodStage;
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.matthy.betadrive.Betadrive;
-import dev.matthy.betadrive.BetadriveConfig;
-import dev.matthy.betadrive.android.AndroidPlayer;
-import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.hud.texts.BatteryText;
 import dev.matthy.betadrive.hud.texts.LevelText;
 import dev.matthy.betadrive.hud.texts.SpeedText;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
-import net.minecraft.world.World;
-
-import java.util.UUID;
 
 @Environment(EnvType.CLIENT)
 public class MeterHUD extends HUDStat {
@@ -35,13 +22,13 @@ public class MeterHUD extends HUDStat {
     public static boolean clearAnimation = false;
     public static long startTime = 0;
     static boolean getStartTimeFlag = true;
-    public static void transformationAnimation(DrawContext drawContext, RenderTickCounter renderTickCounter) { // text popup on screen that appears when taking red pill/converting to android
+    public static boolean transformationAnimation(DrawContext drawContext, RenderTickCounter renderTickCounter) { // text popup on screen that appears when taking red pill/converting to android
         if(getStartTimeFlag) {
             startTime = Util.getMeasuringTimeMs()/50;
             getStartTimeFlag = false;
         }
         int cyclesDone = (int) (Util.getMeasuringTimeMs()/50 - startTime);
-        if(Betadrive.isAndroid || !Betadrive.isConverting || cyclesDone == 400) return;
+        if(!Betadrive.isConverting || cyclesDone >= 400) return false;
         if(cyclesDone > 0  && cyclesDone < 160) { // jank method for delays, each value *should* correspond to ticks?
             printText("BIOLOGICAL PRESENCE DETECTED.", 36, 50, 0xFFA9E2FB, drawContext);
             printText("RELEASING NANOBOTS TO CONVERT BIOLOGICAL PRESENCE", 36, 60, 0xFFA9E2FB, drawContext);
@@ -55,10 +42,13 @@ public class MeterHUD extends HUDStat {
         } else if(cyclesDone > 340 && cyclesDone < 360) {
             printText("...done.", 36, 50, 0xFFA9E2FB, drawContext);
             printText("Body conversion complete.", 36, 60, 0xFFA9E2FB, drawContext);
-            BetadriveConfig.becomeAndroid(); // set cfg
             Betadrive.isConverting=false; // disable isConverting
+            Betadrive.isAndroid=true;
+        } else if(cyclesDone > 360) {
             getStartTimeFlag = true;
+            startTime = 0;
         }
+        return true;
     }
 
 

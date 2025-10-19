@@ -1,7 +1,7 @@
 package dev.matthy.betadrive.item;
 
 import dev.matthy.betadrive.Betadrive;
-import dev.matthy.betadrive.client.BetadriveClient;
+import dev.matthy.betadrive.BetadriveConfig;
 import dev.matthy.betadrive.hud.MeterHUD;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,8 +19,10 @@ public class RedPillItem extends Item { // betadrive:red_pill
     @Override
     public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
         try {
+            MeterHUD.clearAnimation = false;
             if(!Betadrive.isAndroid) {
                 Betadrive.isConverting = true;
+                BetadriveConfig.becomeAndroid(playerEntity.getUuid()); // set cfg
             }
         } catch (Exception e) {
             e.printStackTrace();

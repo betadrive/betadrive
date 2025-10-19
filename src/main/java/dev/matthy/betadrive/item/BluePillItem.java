@@ -17,7 +17,7 @@ public class BluePillItem extends Item { // betadrive:blue_pill
     }
     @Override
     public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
-        BetadriveConfig.unBecomeAndroid();
+        BetadriveConfig.unBecomeAndroid(playerEntity.getUuid());
         try{
             MeterHUD.clearAnimation = true;
             playerEntity.getStackInHand(hand).decrement(1);
