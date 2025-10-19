@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
@@ -21,5 +22,8 @@ public class HUDText {
     }
     public static String build(HUDText... args) {
         return "["+String.join("  ", Arrays.stream(args).map(HUDText::toString).toList())+"]";
+    }
+    public static String build(ArrayList<HUDText> args) {
+        return "["+String.join("  ", args.stream().map(HUDText::toString).toList())+"]";
     }
 }

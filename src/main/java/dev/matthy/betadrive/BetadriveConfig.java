@@ -1,5 +1,6 @@
 package dev.matthy.betadrive;
 
+import dev.matthy.betadrive.config.PlayerConfig;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.world.World;
 import net.minidev.json.JSONObject;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 public class BetadriveConfig {
     public static void becomeAndroid(UUID uuid) { // make this AndroidPlayer an android in the cfg
-        Betadrive.battery = 100f;
+        Betadrive.battery = 100d;
         Betadrive.isAndroid = true;
 
         ClientPlayNetworking.send(new BatteryPayload(Betadrive.battery));
@@ -35,11 +36,18 @@ public class BetadriveConfig {
 
         ClientPlayNetworking.send(new BatteryPayload(Betadrive.battery));
     }
-    public static float getBatteryLevel() {
+    public static double getBatteryLevel() {
         return Betadrive.battery;
     }
 
-    public static void setAndroidStatus(UUID uuid, boolean isAndroid) {
+    public static void setJSON(JSONObject jsonObj) {
+        try (FileWriter file = new FileWriter(Betadrive.filePath)) {
+            file.write(jsonObj.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static JSONObject getJSON() {
         JSONObject jsonObj = new JSONObject();
         try (FileReader reader = new FileReader(Betadrive.filePath)) {
             JSONParser parser = new JSONParser();
@@ -50,22 +58,32 @@ public class BetadriveConfig {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-        jsonObj.put(uuid.toString(), isAndroid);
-        try (FileWriter file = new FileWriter(Betadrive.filePath)) {
-            file.write(jsonObj.toJSONString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return jsonObj;
+    }
+
+    public static void setAndroidPlayerConfig(UUID uuid, PlayerConfig cfg) {
+        JSONObject jsonObj = getJSON();
+        jsonObj.put(uuid.toString(), cfg.constructJSON());
+        setJSON(jsonObj);
+    }
+    public static PlayerConfig getAndroidPlayerConfig(UUID uuid) {
+        return PlayerConfig.fromJSON(getJSON(), uuid);
+    }
+
+    public static void setAndroidStatus(UUID uuid, boolean isAndroid) {
+        PlayerConfig cfg = getAndroidPlayerConfig(uuid);
+        cfg.isAndroid = isAndroid;
+        setAndroidPlayerConfig(uuid, cfg);
     }
     public static boolean getAndroidStatus(UUID uuid) {
-        try (FileReader reader = new FileReader(Betadrive.filePath)) {
-            JSONParser parser = new JSONParser();
-            Object obj = parser.parse(reader);
-            if(obj instanceof JSONObject) {
-                JSONObject jsonObj = (JSONObject) obj;
-                return (boolean) jsonObj.get(uuid.toString());
-            }
-        } catch (IOException | ParseException e) {}
-        return false;
+        return getAndroidPlayerConfig(uuid).isAndroid;
+    }
+    public static void setBattery(UUID uuid, double battery) {
+        PlayerConfig cfg = getAndroidPlayerConfig(uuid);
+        cfg.battery = battery;
+        setAndroidPlayerConfig(uuid, cfg);
+    }
+    public static double getBattery(UUID uuid) {
+        return getAndroidPlayerConfig(uuid).battery;
     }
 }

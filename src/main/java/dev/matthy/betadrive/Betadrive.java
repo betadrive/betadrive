@@ -1,5 +1,6 @@
 package dev.matthy.betadrive;
 
+import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.item.BetadriveItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Betadrive implements ModInitializer {
-    public static float battery = 100;
+    public static double battery = 100;
     public static boolean isAndroid = false;
     public static boolean isConverting = false;
     public static String filePath = null;
@@ -38,20 +39,24 @@ public class Betadrive implements ModInitializer {
             BetadriveConfig.setAndroidStatus(UUID.fromString(payload.uuid()), payload.isAndroid());
         });
         ServerPlayerEvents.JOIN.register((pe) -> {
-            filePath = pe.getEntityWorld().getServer().getSavePath(WorldSavePath.ROOT).toAbsolutePath().toString()+"/betadrive.json";
+            filePath = pe.getEntityWorld().getServer().getSavePath(WorldSavePath.ROOT).toAbsolutePath() + "/betadrive.json";
+            isAndroid = BetadriveConfig.getAndroidStatus(pe.getUuid());
+            battery = BetadriveConfig.getBattery(pe.getUuid());
         });
         ServerPlayerEvents.JOIN.register((playerEntity) -> isAndroid = BetadriveConfig.getAndroidStatus(playerEntity.getUuid()));
         AttackEntityCallback.EVENT.register((player, w, h, e, hr) -> {
             float result = (float) Math.max(0d, battery - 0.01d);
             battery = result;
-            if (result >= 0) return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
+            BetadriveConfig.setBattery(player.getUuid(), battery);
+            if (result >= 0) return ActionResult.PASS;
             player.getHungerManager().setFoodLevel(Math.max(player.getHungerManager().getFoodLevel() - 1, 0));
-            return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
+            return ActionResult.PASS;
         });
 
         PlayerBlockBreakEvents.AFTER.register((w, player, bp, bs, be) -> {
-            float result = (float) Math.max(0d, battery - 0.01d);
+            double result = Math.max(0d, battery - 0.01d);
             battery = result;
+            BetadriveConfig.setBattery(player.getUuid(), battery);
             if (result >= 0) return;
             player.getHungerManager().setFoodLevel(Math.max(player.getHungerManager().getFoodLevel() - 1, 0));
         });

@@ -1,6 +1,6 @@
 {
-    "model": {
-        "type": "minecraft:model",
-        "model": "betadrive:item/robofist"
-    }
+  "model": {
+    "type": "model",
+    "model": "betadrive:item/robofist"
+  }
 }

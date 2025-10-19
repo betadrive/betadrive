@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bc",
+    "  ",
+    "  "
+  ],
+  "key": {
+    "b": "betadrive:battery",
+    "c": "betadrive:circuit"
+  },
+  "result": {
+    "id": "betadrive:battery_display_toggler",
+    "count": 1
+  }
+}
+

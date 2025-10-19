@@ -12,22 +12,19 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.function.Function;
-/*
-public static final RegistryKey<ItemGroup> CUSTOM_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(FabricDocsReference.MOD_ID, "item_group"));
-public static final ItemGroup CUSTOM_ITEM_GROUP = FabricItemGroup.builder()
-		.icon(() -> new ItemStack(ModItems.GUIDITE_SWORD))
-		.displayName(Text.translatable("itemGroup.fabric_docs_reference"))
-		.build();
 
- */
 public class BetadriveItems {
-    public static ArrayList<Item> groupAddable = new ArrayList<Item>();
+    public static ArrayList<Item> groupAddable = new ArrayList<>();
     public static Item CIRCUIT = register("circuit", Item::new, new Item.Settings()); // material, betadrive:circuit
-    public static Item ADVANCED_CIRCUIT;
-    public static Item BATTERY = register("battery", BatteryItem::new, new Item.Settings());
+    public static Item ADVANCED_CIRCUIT = register("advanced_circuit", Item::new, new Item.Settings()); // material, betadrive:advanced_circuit
+    public static Item BATTERY_DISPLAY_TOGGLER = register("battery_display_toggler", (settings) -> new DisplayTogglerItem(settings, "battery"), new Item.Settings());
+    public static Item LEVEL_DISPLAY_TOGGLER = register("level_display_toggler", (settings) -> new DisplayTogglerItem(settings, "level"), new Item.Settings());
+    public static Item SPEED_DISPLAY_TOGGLER = register("speed_display_toggler", (settings) -> new DisplayTogglerItem(settings, "speed"), new Item.Settings());
+    public static Item BATTERY = register("battery", BatteryItem::new, new Item.Settings()); // betadrive:battery
     public static Item RED_PILL = register("red_pill", RedPillItem::new, new Item.Settings()); // used to become an android, betadrive:red_pill
     public static Item BLUE_PILL = register("blue_pill", BluePillItem::new, new Item.Settings()); // used to not become an android, betadrive:blue_pill
     public static Item ROBOFIST = register("robofist", properties -> new RobofistItem(ToolMaterial.NETHERITE, 20, 4.0F,properties), new Item.Settings()); // weapon, betadrive:robofist
+    public static Item ABSORPTION_UPGRADE = register("absorption_upgrade", AbsorptionUpgradeItem::new, new Item.Settings());
     public static final RegistryKey<ItemGroup> BETADRIVE_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of("betadrive", "item_group"));
     public static final ItemGroup BETADRIVE_ITEM_GROUP = FabricItemGroup.builder()
             .icon(() -> new ItemStack(CIRCUIT))

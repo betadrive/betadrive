@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bc",
+    "  ",
+    "  "
+  ],
+  "key": {
+    "b": "minecraft:iron_boots",
+    "c": "betadrive:circuit"
+  },
+  "result": {
+    "id": "betadrive:speed_display_toggler",
+    "count": 1
+  }
+}
+

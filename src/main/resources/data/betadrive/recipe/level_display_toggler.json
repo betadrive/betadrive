@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bc",
+    "  ",
+    "  "
+  ],
+  "key": {
+    "b": "minecraft:book",
+    "c": "betadrive:circuit"
+  },
+  "result": {
+    "id": "betadrive:level_display_toggler",
+    "count": 1
+  }
+}
+

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "drd",
+    "rcr",
+    "drd"
+  ],
+  "key": {
+    "d": "minecraft:diamond",
+    "r": "minecraft:redstone",
+    "c": "betadrive:circuit"
+  },
+  "result": {
+    "id": "betadrive:advanced_circuit",
+    "count": 1
+  }
+}
+
