@@ -19,6 +19,7 @@ public class HUDText {
     public String getLabel() {
         return statLabel;
     }
+
     @Override
     public String toString() {
         return statLabel + "=" + function.apply(MinecraftClient.getInstance().player, MinecraftClient.getInstance().world);

@@ -25,11 +25,11 @@ public class BetadriveClient implements ClientModInitializer {
     public void onInitializeClient() {
         HudElementRegistry.attachElementAfter(VanillaHudElements.CHAT, Identifier.of("betadrive", "after_chat"), MeterHUD::render);
         ClientPlayConnectionEvents.JOIN.register((handler, packetSender, minecraftClient) -> { // Get if our player is an android or not
-            assert minecraftClient.player != null; // Shouldn't be necessary but safter this way
+            assert minecraftClient.player != null; // Shouldn't be necessary but safer this way
             HUDTexts.register(new BatteryText(), new HealthText(), new HungerText(), new LevelText(), new SpeedText());
             isAndroid = BetadriveConfig.getAndroidStatus(minecraftClient.player.getUuid()); // Set the client flag for if we're an android to reduce reading the config file
         });
-        AttackEntityCallback.EVENT.register((player, w, h, e, hr) -> { // Lower battery (or if we're out of battery, lower hunger) by 0.01% if we attack something
+        AttackEntityCallback.EVENT.register((player, w, h, e, hr) -> { // Lower battery by 0.01% (or if we're out of battery, lower hunger) if we attack something
             float result = (float) Math.max(0d, battery - 0.01d);
             battery = result;
             BetadriveConfig.setBattery(player.getUuid(), battery);
@@ -38,7 +38,7 @@ public class BetadriveClient implements ClientModInitializer {
             return ActionResult.PASS;
         });
 
-        PlayerBlockBreakEvents.AFTER.register((w, player, bp, bs, be) -> {// Lower battery (or if we're out of battery, lower hunger) by 0.01% if we break a block
+        PlayerBlockBreakEvents.AFTER.register((w, player, bp, bs, be) -> {// Lower battery by 0.01% (or if we're out of battery, lower hunger) if we break a block
             double result = Math.max(0d, battery - 0.01d);
             battery = result;
             BetadriveConfig.setBattery(player.getUuid(), battery);

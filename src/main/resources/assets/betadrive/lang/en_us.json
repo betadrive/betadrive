@@ -11,6 +11,8 @@
   "item.betadrive.use.already_android_dialog": "You are already an android.",
   "item.betadrive.battery_display_toggler": "Battery Display Toggler",
   "item.betadrive.level_display_toggler": "Level Display Toggler",
-  "item.betadrive.speed_display_toggler": "Speed Display Toggler"
+  "item.betadrive.speed_display_toggler": "Speed Display Toggler",
+  "item.betadrive.hunger_display_toggler": "Hunger Display Toggler",
+  "item.betadrive.health_display_toggler": "Health Display Toggler"
 }
 

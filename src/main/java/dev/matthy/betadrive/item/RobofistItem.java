@@ -11,7 +11,7 @@ import net.minecraft.util.Hand;
 import java.util.Random;
 
 public class RobofistItem extends Item { // betadrive:robofist
-    private Random RANDOM = new Random();
+    private final Random RANDOM = new Random();
     public RobofistItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, net.minecraft.item.Item.Settings settings) {
         super(settings.sword(toolMaterial, attackDamage, attackSpeed));
     }
