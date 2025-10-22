@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "Cc",
+    "  ",
+    "  "
+  ],
+  "key": {
+    "C": "minecraft:carrot",
+    "c": "betadrive:circuit"
+  },
+  "result": {
+    "id": "betadrive:hunger_display_toggler",
+    "count": 1
+  }
+}
+

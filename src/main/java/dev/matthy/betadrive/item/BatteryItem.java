@@ -13,7 +13,7 @@ public class BatteryItem extends Item { // betadrive:battery
         super(settings);
     }
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        BetadriveConfig.fillBattery(user.getUuid(),world);
+        BetadriveConfig.fillBattery(user.getUuid());
         user.getStackInHand(hand).decrement(1);
         return ActionResult.CONSUME;
     }

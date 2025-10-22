@@ -6,6 +6,11 @@
   "item.betadrive.robofist": "Robofist",
   "item.betadrive.battery": "Battery",
   "item.betadrive.absorption_upgrade": "Absorption Upgrade",
-  "itemGroup.betadrive": "Betadrive"
+  "itemGroup.betadrive": "Betadrive",
+  "item.betadrive.use.not_android_dialog": "You are not an android yet.",
+  "item.betadrive.use.already_android_dialog": "You are already an android.",
+  "item.betadrive.battery_display_toggler": "Battery Display Toggler",
+  "item.betadrive.level_display_toggler": "Level Display Toggler",
+  "item.betadrive.speed_display_toggler": "Speed Display Toggler"
 }
 
