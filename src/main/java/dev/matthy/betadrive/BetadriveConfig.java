@@ -1,8 +1,8 @@
 package dev.matthy.betadrive;
 
+import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.config.PlayerConfig;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.world.World;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -14,37 +14,39 @@ import java.util.UUID;
 
 public class BetadriveConfig {
     public static void becomeAndroid(UUID uuid) { // make this AndroidPlayer an android in the cfg
-        Betadrive.battery = 100d;
-        Betadrive.isAndroid = true;
-
-        ClientPlayNetworking.send(new BatteryPayload(Betadrive.battery));
-        ClientPlayNetworking.send(new IsAndroidPayload(uuid.toString(), Betadrive.isAndroid));
-
+        if(uuid == BetadriveClient.playerUUID) {
+            BetadriveClient.battery = 100d;
+            BetadriveClient.isAndroid = true;
+            ClientPlayNetworking.send(new BatteryPayload(100d));
+            ClientPlayNetworking.send(new IsAndroidPayload(uuid.toString(), BetadriveClient.isAndroid));
+        }
         setAndroidStatus(uuid, true);
     }
     public static void unBecomeAndroid(UUID uuid) { // remove this AndroidPlayer from the android list in cfg
-        Betadrive.isAndroid = false;
-
-        ClientPlayNetworking.send(new BatteryPayload(Betadrive.battery));
-        ClientPlayNetworking.send(new IsAndroidPayload(uuid.toString(), Betadrive.isAndroid));
-
+        if(uuid == BetadriveClient.playerUUID) {
+            BetadriveClient.isAndroid = false;
+            ClientPlayNetworking.send(new BatteryPayload(BetadriveClient.battery));
+            ClientPlayNetworking.send(new IsAndroidPayload(uuid.toString(), BetadriveClient.isAndroid));
+        }
         setAndroidStatus(uuid, false);
     }
 
-    public static void fillBattery(UUID uuid, World world) {
-        Betadrive.battery = 100f;
-
-        ClientPlayNetworking.send(new BatteryPayload(Betadrive.battery));
+    public static void fillBattery(UUID uuid) {
+        if(uuid == BetadriveClient.playerUUID) {
+            BetadriveClient.battery = 100f;
+            ClientPlayNetworking.send(new BatteryPayload(BetadriveClient.battery));
+        }
+        setBattery(uuid, BetadriveClient.battery);
     }
     public static double getBatteryLevel() {
-        return Betadrive.battery;
+        return BetadriveClient.battery;
     }
 
     public static void setJSON(JSONObject jsonObj) {
         try (FileWriter file = new FileWriter(Betadrive.filePath)) {
             file.write(jsonObj.toJSONString());
         } catch (IOException e) {
-            e.printStackTrace();
+            Betadrive.LOGGER.warn("Failed to save config to {}", Betadrive.filePath);
         }
     }
     public static JSONObject getJSON() {
@@ -55,9 +57,7 @@ public class BetadriveConfig {
             if(obj instanceof JSONObject) {
                 jsonObj = (JSONObject) obj;
             }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException | ParseException ignored) {}
         return jsonObj;
     }
 

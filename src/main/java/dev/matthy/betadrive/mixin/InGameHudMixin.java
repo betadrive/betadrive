@@ -1,6 +1,5 @@
 package dev.matthy.betadrive.mixin;
 
-import dev.matthy.betadrive.Betadrive;
 import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.hud.MeterHUD;
 import net.fabricmc.api.EnvType;
@@ -25,11 +24,8 @@ public abstract class InGameHudMixin {
      */
     @Overwrite
     private void renderCrosshair(DrawContext context, RenderTickCounter tickCounter) {
-        if(MeterHUD.clearAnimation || (isHudRendering && Betadrive.isConverting) || !Betadrive.isAndroid) return; // are we not an android, or is the hud already running?
+        if(MeterHUD.clearAnimation || (isHudRendering && BetadriveClient.isConverting) || !BetadriveClient.isAndroid) return; // Checks if (a) player turned back into human (i.e. via Blue Pill), (b) player is currently becoming an android, or (c) player is not an android and is not converting. If any of these are true, exit early
         assert MinecraftClient.getInstance().world != null;
-//        isHudRendering = true; // don't make *another* mainHud object for no reason
-//        Betadrive.isConverting = true;
-//        System.out.println("RENDERING TEST");
         MeterHUD.render(context, tickCounter);
     }
 }

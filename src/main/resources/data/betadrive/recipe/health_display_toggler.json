@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "Ac",
+    "  ",
+    "  "
+  ],
+  "key": {
+    "A": "minecraft:apple",
+    "c": "betadrive:circuit"
+  },
+  "result": {
+    "id": "betadrive:health_display_toggler",
+    "count": 1
+  }
+}
+

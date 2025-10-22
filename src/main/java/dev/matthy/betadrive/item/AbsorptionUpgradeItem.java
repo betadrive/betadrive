@@ -1,9 +1,11 @@
 package dev.matthy.betadrive.item;
 
+import dev.matthy.betadrive.BetadriveConfig;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -14,7 +16,12 @@ public class AbsorptionUpgradeItem extends Item {
     public AbsorptionUpgradeItem(Settings settings) {
         super(settings);
     }
+
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
+        if(!BetadriveConfig.getAndroidStatus(user.getUuid())) {
+            user.sendMessage(Text.translatable("item.betadrive.use.not_android_dialog"), true);
+            return ActionResult.FAIL;
+        }
         double newAbsorptionAmount;
         try {
             newAbsorptionAmount = user.getAttributeInstance(EntityAttributes.MAX_HEALTH).getModifier(ABSORPTION_UPGRADE_ITEM).value()+2;

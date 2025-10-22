@@ -11,14 +11,17 @@ import java.util.function.BiFunction;
 
 public class HUDText {
     private final String statLabel;
-    private final String statValue;
+    private final BiFunction<PlayerEntity, World,String> function;
     public HUDText(String label, BiFunction<PlayerEntity, World,String> value) {
         statLabel = label;
-        statValue = value.apply(MinecraftClient.getInstance().player, MinecraftClient.getInstance().world);
+        function = value;
+    }
+    public String getLabel() {
+        return statLabel;
     }
     @Override
     public String toString() {
-        return statLabel + "=" + statValue;
+        return statLabel + "=" + function.apply(MinecraftClient.getInstance().player, MinecraftClient.getInstance().world);
     }
     public static String build(HUDText... args) {
         return "["+String.join("  ", Arrays.stream(args).map(HUDText::toString).toList())+"]";
