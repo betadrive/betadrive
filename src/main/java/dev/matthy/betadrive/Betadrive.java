@@ -1,6 +1,5 @@
 package dev.matthy.betadrive;
 
-import dev.matthy.betadrive.hud.texts.*;
 import dev.matthy.betadrive.item.BetadriveItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -24,6 +23,5 @@ public class Betadrive implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(BatteryPayload.ID, (payload, context) -> BetadriveConfig.setBattery(context.player().getUuid(), payload.battery()));
         ServerPlayNetworking.registerGlobalReceiver(IsAndroidPayload.ID, (payload, context) -> BetadriveConfig.setAndroidStatus(UUID.fromString(payload.uuid()), payload.isAndroid()));
         ServerPlayerEvents.JOIN.register((pe) -> filePath = pe.getEntityWorld().getServer().getSavePath(WorldSavePath.ROOT).toAbsolutePath() + "/betadrive.json");
-
     }
 }

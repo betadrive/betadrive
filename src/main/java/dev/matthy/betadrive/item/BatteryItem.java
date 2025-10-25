@@ -14,6 +14,8 @@ public class BatteryItem extends Item { // betadrive:battery
     }
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         BetadriveConfig.fillBattery(user.getUuid());
+        user.getHungerManager().setFoodLevel(20);
+        user.getHungerManager().setSaturationLevel(20);
         user.getStackInHand(hand).decrement(1);
         return ActionResult.CONSUME;
     }

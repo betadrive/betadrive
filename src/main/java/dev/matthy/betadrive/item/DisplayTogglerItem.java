@@ -22,7 +22,7 @@ public class DisplayTogglerItem extends Item {
             return ActionResult.FAIL;
         }
         PlayerConfig cfg = BetadriveConfig.getAndroidPlayerConfig(user.getUuid());
-        cfg.hudSettings.whichToEnable.put(propertyToSet, !cfg.hudSettings.whichToEnable.getOrDefault(propertyToSet, false));
+        cfg.whichToEnable.put(propertyToSet, !cfg.whichToEnable.getOrDefault(propertyToSet, false));
         BetadriveConfig.setAndroidPlayerConfig(user.getUuid(), cfg);
         return ActionResult.SUCCESS;
     }

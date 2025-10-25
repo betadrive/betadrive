@@ -1,18 +1,21 @@
 package dev.matthy.betadrive;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev.matthy.betadrive.client.BetadriveClient;
+import dev.matthy.betadrive.config.ConfigFile;
 import dev.matthy.betadrive.config.PlayerConfig;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 public class BetadriveConfig {
+    private static final Gson gson = new Gson();
     public static void becomeAndroid(UUID uuid) { // make this AndroidPlayer an android in the cfg
         if(uuid == BetadriveClient.playerUUID) {
             BetadriveClient.battery = 100d;
@@ -20,7 +23,12 @@ public class BetadriveConfig {
             ClientPlayNetworking.send(new BatteryPayload(100d));
             ClientPlayNetworking.send(new IsAndroidPayload(uuid.toString(), BetadriveClient.isAndroid));
         }
-        setAndroidStatus(uuid, true);
+        PlayerConfig config = getAndroidPlayerConfig(uuid);
+        config.isAndroid = true;
+        config.whichToEnable = new LinkedHashMap<>();
+        config.whichToEnable.put("BAT", true);
+        config.whichToEnable.put("HP", true);
+        setAndroidPlayerConfig(uuid, config);
     }
     public static void unBecomeAndroid(UUID uuid) { // remove this AndroidPlayer from the android list in cfg
         if(uuid == BetadriveClient.playerUUID) {
@@ -42,28 +50,30 @@ public class BetadriveConfig {
         return BetadriveClient.battery;
     }
 
-    public static void setJSON(JSONObject jsonObj) {
+    public static void setJSON(ConfigFile jsonObj) {
         try (FileWriter file = new FileWriter(Betadrive.filePath)) {
-            file.write(jsonObj.toJSONString());
+            file.write(gson.toJson(jsonObj.settingsMap));
         } catch (IOException e) {
             Betadrive.LOGGER.warn("Failed to save config to {}", Betadrive.filePath);
         }
     }
-    public static JSONObject getJSON() {
-        JSONObject jsonObj = new JSONObject();
+    public static ConfigFile getJSON() {
+        ConfigFile configFile = new ConfigFile();
         try (FileReader reader = new FileReader(Betadrive.filePath)) {
-            JSONParser parser = new JSONParser();
-            Object obj = parser.parse(reader);
-            if(obj instanceof JSONObject) {
-                jsonObj = (JSONObject) obj;
-            }
-        } catch (IOException | ParseException ignored) {}
-        return jsonObj;
+            Gson gson = new Gson();
+            Type hmType = new TypeToken<LinkedHashMap<String, PlayerConfig>>() {}.getType();
+            LinkedHashMap<String, PlayerConfig> map = gson.fromJson(reader, hmType);
+            if(map != null) configFile = new ConfigFile(map);
+
+        } catch (IOException ignored) {
+            configFile = new ConfigFile();
+        }
+        return configFile;
     }
 
     public static void setAndroidPlayerConfig(UUID uuid, PlayerConfig cfg) {
-        JSONObject jsonObj = getJSON();
-        jsonObj.put(uuid.toString(), cfg.constructJSON());
+        ConfigFile jsonObj = getJSON();
+        jsonObj.settingsMap.put(uuid.toString(), cfg);
         setJSON(jsonObj);
     }
     public static PlayerConfig getAndroidPlayerConfig(UUID uuid) {

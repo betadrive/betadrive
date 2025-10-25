@@ -8,7 +8,6 @@ import net.minecraft.text.Style;
 import net.minecraft.text.StyleSpriteSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 
 public class HUDStat {
     static TextRenderer renderer = MinecraftClient.getInstance().textRenderer;

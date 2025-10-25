@@ -13,6 +13,12 @@
   "item.betadrive.level_display_toggler": "Level Display Toggler",
   "item.betadrive.speed_display_toggler": "Speed Display Toggler",
   "item.betadrive.hunger_display_toggler": "Hunger Display Toggler",
-  "item.betadrive.health_display_toggler": "Health Display Toggler"
-}
+  "item.betadrive.health_display_toggler": "Health Display Toggler",
+  "hud.betadrive.transformation_dialog_1_1": "Biological presence detected... (%d%%)",
+  "hud.betadrive.transformation_dialog_1_2": "releasing nanobots. (%d%%)",
+  "hud.betadrive.transformation_dialog_2_1": "Converting neurons... (%d%%)",
+  "hud.betadrive.transformation_dialog_done": "...done. (%d%%)",
+  "hud.betadrive.transformation_dialog_3_1": "Reconfiguring neural pathways... (%d%%)",
+  "hud.betadrive.transformation_dialog_4_1": "Finalizing transformation... (%d%%)"
 
+}

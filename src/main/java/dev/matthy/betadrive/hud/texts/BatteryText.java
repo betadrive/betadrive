@@ -6,6 +6,6 @@ import dev.matthy.betadrive.hud.HUDText;
 public class BatteryText extends HUDText {
 
     public BatteryText() {
-        super("BAT", (player, world) -> String.valueOf((int) BetadriveConfig.getBatteryLevel()));
+        super("BAT", (player, world) -> (int) (BetadriveConfig.getBatteryLevel() + 0.5) +"%");
     }
 }

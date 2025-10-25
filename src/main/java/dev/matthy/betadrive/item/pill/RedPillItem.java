@@ -19,6 +19,7 @@ public class RedPillItem extends Item { // betadrive:red_pill
     @Environment(EnvType.CLIENT)
     @Override
     public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
+        if(!world.isClient()) return ActionResult.PASS;
         if(BetadriveConfig.getAndroidStatus(playerEntity.getUuid())) {
             BetadriveClient.isAndroid = true;
             BetadriveClient.isConverting = false;
