@@ -14,7 +14,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class BluePillItem extends Item { // betadrive:blue_pill
+public class BluePillItem extends Item { // betadrive:blue_pill. Turns player back into a human
     public BluePillItem(Settings settings) {
         super(settings);
     }

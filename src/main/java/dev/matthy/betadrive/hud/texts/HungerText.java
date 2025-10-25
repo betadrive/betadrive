@@ -3,7 +3,7 @@ package dev.matthy.betadrive.hud.texts;
 import dev.matthy.betadrive.hud.HUDText;
 
 public class HungerText extends HUDText {
-    public HungerText() {
-        super("HGR", (player, world) -> String.valueOf(player.getHungerManager().getFoodLevel()));
+    public HungerText() { // Hunger percent based on max default hunger (0<=getFoodLevel()<=20)
+        super("HGR", (player, world) -> player.getHungerManager().getFoodLevel() * 5 + "%");
     }
 }

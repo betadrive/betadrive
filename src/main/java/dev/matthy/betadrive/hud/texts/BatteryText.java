@@ -5,7 +5,7 @@ import dev.matthy.betadrive.hud.HUDText;
 
 public class BatteryText extends HUDText {
 
-    public BatteryText() {
+    public BatteryText() { // Battery rounded to percent, in format %d%% (e.g. 99%, 5%, 100%)
         super("BAT", (player, world) -> (int) (BetadriveConfig.getBatteryLevel() + 0.5) +"%");
     }
 }

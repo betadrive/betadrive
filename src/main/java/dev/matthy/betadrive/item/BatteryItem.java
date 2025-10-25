@@ -7,7 +7,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class BatteryItem extends Item { // betadrive:battery
+public class BatteryItem extends Item { // betadrive:battery. Fills android battery
 
     public BatteryItem(Settings settings) {
         super(settings);

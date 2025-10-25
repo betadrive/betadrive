@@ -12,7 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class RedPillItem extends Item { // betadrive:red_pill
+public class RedPillItem extends Item { // betadrive:red_pill. Turns player into an android, the main focus of Betadrive
     public RedPillItem(Settings settings) {
         super(settings);
     }

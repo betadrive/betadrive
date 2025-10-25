@@ -19,7 +19,7 @@ public abstract class InGameHudMixin {
      * @reason Add android HUD
      */
     @Overwrite
-    private void renderCrosshair(DrawContext context, RenderTickCounter tickCounter) {
+    private void renderCrosshair(DrawContext context, RenderTickCounter tickCounter) { // This is where our mixin is to render android HUD stuff
         if(MeterHUD.clearAnimation || BetadriveClient.isConverting || !BetadriveClient.isAndroid) return; // Checks if (a) player turned back into human (i.e. via Blue Pill), (b) player is currently becoming an android, or (c) player is not an android and is not converting. If any of these are true, exit early
         assert MinecraftClient.getInstance().world != null;
         MeterHUD.render(context, tickCounter);

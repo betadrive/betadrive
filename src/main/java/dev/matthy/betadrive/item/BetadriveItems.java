@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.function.Function;
 
-public class BetadriveItems {
+public class BetadriveItems { // Stores and registers all Betadrive items
     public static ArrayList<Item> groupAddable = new ArrayList<>();
     public static Item CIRCUIT = register("circuit", Item::new, new Item.Settings()); // material, betadrive:circuit
     public static Item ADVANCED_CIRCUIT = register("advanced_circuit", Item::new, new Item.Settings()); // material, betadrive:advanced_circuit
