@@ -9,6 +9,12 @@ Betadrive is a mod where you can become an android, granting you the ability to 
         </details>
     </li>
     <li>
+         <details>
+            <summary><img src="src/main/resources/assets/betadrive/textures/item/water_resistance_upgrade.png" width="12" height="12" /> Water Resistance Upgrade</summary>
+            Enables viewing the android HUD underwater, which would normally cause the HUD to glitch.
+        </details>
+    </li>
+    <li>
         <details>
             <summary><img src="src/main/resources/assets/betadrive/textures/item/red_pill.png" width="12" height="12" /> Red Pill</summary>
             <img src="img/red-pill.png" alt="A recipe for a Red Pill from Betadrive. From top left to bottom right going right then down: diamond, redstone block, diamond, redstone block, printed circuit board, redstone block, diamond, redstone block, diamond. The result is a Red Pill." title="Red Pill recipe" /><br />
@@ -52,7 +58,7 @@ Betadrive is a mod where you can become an android, granting you the ability to 
             </details>
             <details>
                 <summary><img src="src/main/resources/assets/betadrive/textures/item/hunger_display_toggler.png" width="12" height="12" /> Hunger Display Toggler</summary>
-                Toggles the "HGR" HUD text which tells you the percent of max hunger (20 HP) that you're at.
+                Toggles the "HGR" HUD text which tells you the percent of max hunger (20 hunger) that you're at.
             </details>
             <details>
                 <summary><img src="src/main/resources/assets/betadrive/textures/item/level_display_toggler.png" width="12" height="12" /> Level Display Toggler</summary>
