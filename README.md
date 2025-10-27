@@ -5,7 +5,7 @@ Betadrive is a mod where you can become an android, granting you the ability to 
     <li>
          <details>
             <summary><img src="src/main/resources/assets/betadrive/textures/item/absorption_upgrade.png" width="12" height="12" /> Absorption Upgrade</summary>
-            Increases your max health up to a maximum of 10 hearts (20 HP).
+            Increases your max health by 1 heart, up to a maximum of an additional 10 hearts (20 HP).
         </details>
     </li>
     <li>
@@ -75,3 +75,5 @@ Betadrive is a mod where you can become an android, granting you the ability to 
         </details>
     </li>
 </ul>
+<h2>Modpack usage</h2>
+Feel free to include this in any modpacks.
