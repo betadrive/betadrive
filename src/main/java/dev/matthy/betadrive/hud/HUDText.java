@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 
 public class HUDText {
     private final String statLabel;
-    private final BiFunction<PlayerEntity, World,String> function;
+    private final BiFunction<PlayerEntity, World,String> function; // Function that uses the player and the player's world for calculating any values. Client-side
     private static final Random RANDOM = new Random();
     public static final char[] randomLetterChoices = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()[]{}:;,../<>".toCharArray();
     public HUDText(String label, BiFunction<PlayerEntity, World,String> value) {
