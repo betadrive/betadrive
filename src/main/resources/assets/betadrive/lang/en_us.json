@@ -6,6 +6,7 @@
   "item.betadrive.robofist": "Robofist",
   "item.betadrive.battery": "Battery",
   "item.betadrive.absorption_upgrade": "Absorption Upgrade",
+  "item.betadrive.water_resistance_upgrade": "Water Resistance Upgrade",
   "itemGroup.betadrive": "Betadrive",
   "item.betadrive.use.not_android_dialog": "You are not an android yet.",
   "item.betadrive.use.already_android_dialog": "You are already an android.",

@@ -7,6 +7,7 @@ public class PlayerConfig { // Used to manage the save betadrive.json file
     public transient String uuid;
     public boolean isAndroid;
     public double battery;
+    public boolean waterResistant;
     public LinkedHashMap<String, Boolean> whichToEnable;
 
     public PlayerConfig(UUID uuid) {

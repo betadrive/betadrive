@@ -1,4 +1,4 @@
-package dev.matthy.betadrive.item;
+package dev.matthy.betadrive.item.upgrade;
 
 import dev.matthy.betadrive.BetadriveConfig;
 import net.minecraft.entity.attribute.EntityAttributeModifier;

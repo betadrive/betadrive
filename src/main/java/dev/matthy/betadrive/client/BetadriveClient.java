@@ -20,6 +20,7 @@ public class BetadriveClient implements ClientModInitializer {
     public static UUID playerUUID;
     public static boolean isConverting = false;
     public static boolean isAndroid = false;
+    public static boolean isWaterResistant = false;
     public static double battery = 100; // Client's battery %
     @Override
     public void onInitializeClient() {
@@ -28,6 +29,7 @@ public class BetadriveClient implements ClientModInitializer {
             assert minecraftClient.player != null; // Shouldn't be necessary but safer this way
             HUDTexts.register(new BatteryText(), new HealthText(), new HungerText(), new LevelText(), new SpeedText());
             isAndroid = BetadriveConfig.getAndroidStatus(minecraftClient.player.getUuid()); // Set the client flag for if we're an android to reduce reading the config file
+            isWaterResistant = BetadriveConfig.getAndroidPlayerConfig(minecraftClient.player.getUuid()).waterResistant;
         });
         AttackEntityCallback.EVENT.register((player, w, h, e, hr) -> { // Lower battery by 0.01% (or if we're out of battery, lower hunger) if we attack something
             float result = (float) Math.max(0d, battery - 0.01d);

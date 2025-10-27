@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ccc",
+    "cWc",
+    "ccc"
+  ],
+  "key": {
+    "c": "betadrive:circuit",
+    "W": "minecraft:water_bucket"
+  },
+  "result": {
+    "id": "betadrive:water_resistance_upgrade",
+    "count": 1
+  }
+}

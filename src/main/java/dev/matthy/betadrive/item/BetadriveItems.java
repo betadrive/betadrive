@@ -2,6 +2,8 @@ package dev.matthy.betadrive.item;
 
 import dev.matthy.betadrive.item.pill.BluePillItem;
 import dev.matthy.betadrive.item.pill.RedPillItem;
+import dev.matthy.betadrive.item.upgrade.AbsorptionUpgradeItem;
+import dev.matthy.betadrive.item.upgrade.WaterResistanceUpgradeItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;
@@ -29,6 +31,7 @@ public class BetadriveItems { // Stores and registers all Betadrive items
     public static Item BLUE_PILL = register("blue_pill", BluePillItem::new, new Item.Settings()); // used to not become an android, betadrive:blue_pill
     public static Item ROBOFIST = register("robofist", properties -> new RobofistItem(ToolMaterial.NETHERITE, 20, 4.0F,properties), new Item.Settings()); // weapon, betadrive:robofist
     public static Item ABSORPTION_UPGRADE = register("absorption_upgrade", AbsorptionUpgradeItem::new, new Item.Settings());
+    public static Item WATER_RESISTANCE_UPGRADE  = register("water_resistance_upgrade", WaterResistanceUpgradeItem::new, new Item.Settings());
     public static final RegistryKey<ItemGroup> BETADRIVE_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of("betadrive", "item_group"));
     public static final ItemGroup BETADRIVE_ITEM_GROUP = FabricItemGroup.builder()
             .icon(() -> new ItemStack(CIRCUIT))
