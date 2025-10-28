@@ -9,4 +9,8 @@ public class HUDTexts {
     public static void register(HUDText... texts) {
         for(HUDText text : texts) register(text);
     }
+
+    public static void init() {
+        for(HUDText text : HUDConfig.possibleStats.values()) text.registerItem();
+    }
 }

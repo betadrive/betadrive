@@ -1,5 +1,6 @@
 package dev.matthy.betadrive.item;
 
+import dev.matthy.betadrive.hud.HUDTexts;
 import dev.matthy.betadrive.item.pill.BluePillItem;
 import dev.matthy.betadrive.item.pill.RedPillItem;
 import dev.matthy.betadrive.item.upgrade.AbsorptionUpgradeItem;
@@ -21,11 +22,11 @@ public class BetadriveItems { // Stores and registers all Betadrive items
     public static ArrayList<Item> groupAddable = new ArrayList<>();
     public static Item CIRCUIT = register("circuit", Item::new, new Item.Settings()); // material, betadrive:circuit
     public static Item ADVANCED_CIRCUIT = register("advanced_circuit", Item::new, new Item.Settings()); // material, betadrive:advanced_circuit
-    public static Item BATTERY_DISPLAY_TOGGLER = register("battery_display_toggler", (settings) -> new DisplayTogglerItem(settings, "BAT"), new Item.Settings().maxCount(1));
-    public static Item LEVEL_DISPLAY_TOGGLER = register("level_display_toggler", (settings) -> new DisplayTogglerItem(settings, "LVL"), new Item.Settings().maxCount(1));
-    public static Item SPEED_DISPLAY_TOGGLER = register("speed_display_toggler", (settings) -> new DisplayTogglerItem(settings, "MPS"), new Item.Settings().maxCount(1));
-    public static Item HEALTH_DISPLAY_TOGGLER = register("health_display_toggler", (settings) -> new DisplayTogglerItem(settings, "HP"), new Item.Settings().maxCount(1));
-    public static Item HUNGER_DISPLAY_TOGGLER = register("hunger_display_toggler", (settings) -> new DisplayTogglerItem(settings, "HGR"), new Item.Settings().maxCount(1));
+//    public static Item BATTERY_DISPLAY_TOGGLER = register("battery_display_toggler", (settings) -> new DisplayTogglerItem(settings, "BAT"), new Item.Settings().maxCount(1));
+//    public static Item LEVEL_DISPLAY_TOGGLER = register("level_display_toggler", (settings) -> new DisplayTogglerItem(settings, "LVL"), new Item.Settings().maxCount(1));
+//    public static Item SPEED_DISPLAY_TOGGLER = register("speed_display_toggler", (settings) -> new DisplayTogglerItem(settings, "MPS"), new Item.Settings().maxCount(1));
+//    public static Item HEALTH_DISPLAY_TOGGLER = register("health_display_toggler", (settings) -> new DisplayTogglerItem(settings, "HP"), new Item.Settings().maxCount(1));
+//    public static Item HUNGER_DISPLAY_TOGGLER = register("hunger_display_toggler", (settings) -> new DisplayTogglerItem(settings, "HGR"), new Item.Settings().maxCount(1));
     public static Item BATTERY = register("battery", BatteryItem::new, new Item.Settings()); // betadrive:battery
     public static Item RED_PILL = register("red_pill", RedPillItem::new, new Item.Settings()); // used to become an android, betadrive:red_pill
     public static Item BLUE_PILL = register("blue_pill", BluePillItem::new, new Item.Settings()); // used to not become an android, betadrive:blue_pill
@@ -50,7 +51,8 @@ public class BetadriveItems { // Stores and registers all Betadrive items
         return item;
     }
     public static void init() {
-        Registry.register(Registries.ITEM_GROUP, BETADRIVE_GROUP_KEY, BETADRIVE_ITEM_GROUP);
+        Registry.register(Registries.ITEM_GROUP, BETADRIVE_GROUP_KEY, BETADRIVE_ITEM_GROUP); // "Betadrive" item group
+        HUDTexts.init(); // get display togglers in the list too
         ItemGroupEvents.modifyEntriesEvent(BETADRIVE_GROUP_KEY).register(itemGroup -> {
             for (Item item : groupAddable)
                 itemGroup.add(item); // add all the items put in groupAddable (via register override, includeInGroup=true, or not specified)

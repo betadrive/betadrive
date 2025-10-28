@@ -11,6 +11,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
+
 public class AbsorptionUpgradeItem extends Item {
     public final Identifier ABSORPTION_UPGRADE_ITEM = Identifier.of("betadrive", "absorption_upgrade");
     public AbsorptionUpgradeItem(Settings settings) {

@@ -1,7 +1,10 @@
 package dev.matthy.betadrive.hud;
 
+import dev.matthy.betadrive.item.BetadriveItems;
+import dev.matthy.betadrive.item.DisplayTogglerItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -12,12 +15,19 @@ import java.util.function.BiFunction;
 
 public class HUDText {
     private final String statLabel;
+    private final String statName;
+    private final String itemName;
     private final BiFunction<PlayerEntity, World,String> function; // Function that uses the player and the player's world for calculating any values. Client-side
     private static final Random RANDOM = new Random();
     public static final char[] randomLetterChoices = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()[]{}:;,../<>".toCharArray();
-    public HUDText(String label, BiFunction<PlayerEntity, World,String> value) {
+    public HUDText(String label, String name, BiFunction<PlayerEntity, World,String> value) {
         statLabel = label; // Used to label the stat, e.g. "HP" (health percent), "HGR" (hunger), "LVL" (XP level) as well as being used in the JSON config to check if this text is enabled for a player
+        statName = name; // The full name of the stat (e.g. "battery" for the BAT label)
+        itemName = statName+"_display_toggler"; // item name/ID
         function = value; // Function that takes the PlayerEntity and World and provides the value to use in the rendered text
+    }
+    public void registerItem() {
+        BetadriveItems.register(itemName, (settings) -> new DisplayTogglerItem(settings, statLabel), new Item.Settings().maxCount(1));
     }
     public static String randomString(int length) {
         StringBuilder randomStr = new StringBuilder();

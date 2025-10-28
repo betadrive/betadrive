@@ -1,5 +1,6 @@
 package dev.matthy.betadrive.hud;
 
+import dev.matthy.betadrive.Betadrive;
 import dev.matthy.betadrive.BetadriveConfig;
 import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.config.HUDConfig;
@@ -35,12 +36,23 @@ public class MeterHUD extends HUDStat {
         if(isGlitched) hudText = HUDText.randomString(hudText.length());
         printText(hudText, 12, 12, 0xFFA9E2FB, drawContext); // Finally, render the built/combined text
     }
+    public static void updateIfNeeded() {
+        if(Betadrive.updateAndroidStatus) {
+            BetadriveClient.isAndroid = BetadriveConfig.getAndroidStatus(BetadriveClient.playerUUID);
+            Betadrive.updateAndroidStatus = false;
+        }
+        if(Betadrive.updateBattery) {
+            BetadriveClient.battery = BetadriveConfig.getBattery(BetadriveClient.playerUUID);
+            Betadrive.updateBattery = false;
+        }
+    }
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         if(BetadriveClient.playerUUID == null) BetadriveClient.playerUUID = player.getUuid();
         if(BetadriveClient.isConverting) {
             transformationAnimation(drawContext, renderTickCounter); // If we're converting, render the transformation animation (see: TransformationAnimation) instead
             return; // Exit early to make sure android UI isn't also rendered too soon with the conversion animation
         }
+        updateIfNeeded();
         boolean glitchedFlag = false;
         if(player.isSubmergedInWater() && !BetadriveClient.isWaterResistant) glitchedFlag = true;
         hudAnimation(drawContext, glitchedFlag); // Finally, render the android-only HUD animation
