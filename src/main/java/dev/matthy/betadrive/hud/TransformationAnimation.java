@@ -16,6 +16,8 @@ import static dev.matthy.betadrive.hud.HUDStat.printText;
 public class TransformationAnimation {
     public static long startTime = 0; // Start of in-game tick counter relative to when the animation started
     public static double animationSpeedMultiplier = 20; // Duration of the entire animation in seconds
+    private static int charactersLeft = 0;
+    public static boolean startRevert = false;
     public static HashMap<Integer, String> animationCues = new HashMap<>() // K = integer start time in ticks, V = lang key for i18n
     {{ // Store default values:
         put(0, "hud.betadrive.transformation_dialog_1_1"); // 0-3 s
@@ -46,10 +48,27 @@ public class TransformationAnimation {
         Text translated = net.minecraft.text.Text.translatable(langKey, cyclesDone/animationSpeedMultiplier*5);
         printText(translated.getString(), 36, 50, 0xFFA9E2FB, drawContext);
         if(cyclesDone >= animationSpeedMultiplier*20) { // Reset for next red pill animation if needed
-            BetadriveClient.isConverting=false; // disable isConverting
-            BetadriveClient.isAndroid=true; // enable android flag for client
+            BetadriveClient.isConverting = false; // disable isConverting
+            BetadriveClient.isAndroid = true; // enable android flag for client
             getStartTimeFlag = true; // Reset the getStartTimeFlag for if user takes blue pill then red pill again
             startTime = 0; // Again, just reset the start time if the user takes blue pill then red pill again. This is likely unnecessary since getStartTimeFlag will get the new time before startTime has a chance to be used w/o being reset
+        }
+    }
+    public static void revertAnimation(DrawContext drawContext, RenderTickCounter renderTickCounter) {
+        if(startRevert) {
+            charactersLeft = HUDText.build(MeterHUD.texts).length();
+            getStartTimeFlag = true;
+            startRevert = false;
+        }
+        int cyclesDone = (int) (Util.getMeasuringTimeMs()/50 - startTime); // Number of ticks since animation started
+        MeterHUD.textPrinting(drawContext, HUDText.randomString(charactersLeft));
+        if(cyclesDone % 10 == 0) {
+            charactersLeft--;
+        }
+        if(charactersLeft <= 0) {
+            BetadriveClient.isConvertingBack = false;
+            getStartTimeFlag = true;
+            startTime = 0;
         }
     }
 }

@@ -10,17 +10,22 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
-
-import static dev.matthy.betadrive.hud.TransformationAnimation.transformationAnimation;
 
 @Environment(EnvType.CLIENT)
 public class MeterHUD extends HUDStat {
     public static boolean clearAnimation = false; // Enabled only when Blue Pill is consumed thus far. Clears the HUD and disables it until the player re-converts into an android.
     public static PlayerEntity player = MinecraftClient.getInstance().player; // Clientside player
-    private static final ArrayList<HUDText> texts = new ArrayList<>(); // List of enabled instances of HUDText, modified by updateHudLabels
-
+    public static final ArrayList<HUDText> texts = new ArrayList<>(); // List of enabled instances of HUDText, modified by updateHudLabels
+    private static double prevRotationX = 0;
+    private static double prevRotationY = 0;
+    private static final double dragFactor = 5;
+    private static final double speedFactor = 0.15;
+    private static final double dampingFactor = 0.9;
+    private static double swayX = 0;
+    private static double swayY = 0;
     public static void updateHudLabels() { // update which hud elements are enabled
         java.util.LinkedHashMap<String, Boolean> whichToEnable = BetadriveConfig.getAndroidPlayerConfig(BetadriveClient.playerUUID).whichToEnable;
         texts.clear(); // Clear previous texts data
@@ -29,17 +34,30 @@ public class MeterHUD extends HUDStat {
         }
     }
     public static void hudAnimation(DrawContext drawContext, boolean isGlitched) { // when you *are* an android, and we're just rendering the HUD
-        if(!BetadriveClient.isAndroid || clearAnimation || BetadriveClient.isConverting) return; // checks to make sure you *are* an android, haven't taken the blue pill, and aren't converting)
+        if(!BetadriveClient.isAndroid || clearAnimation || BetadriveClient.isConverting) return; // Checks to make sure you *are* an android, haven't taken the blue pill, and aren't converting
         updateHudLabels(); // See MeterHUD.updateHudLabels
         if(texts.isEmpty()) return; // If no instances of HUDText are present/none enabled, don't render anything
         String hudText = HUDText.build(texts); // If there *are* any instances of HUDText in texts, then we can build them all together
-        if(isGlitched) hudText = HUDText.randomString(hudText.length());
-        printText(hudText, 12, 12, 0xFFA9E2FB, drawContext); // Finally, render the built/combined text
+        if(isGlitched) hudText = HUDText.randomString(hudText.length()); // Random text if glitched
+        textPrinting(drawContext, hudText);
+    }
+    public static void textPrinting(DrawContext drawContext, String text) { // when you *are* an android, and we're just rendering the HUD
+        // Move the HUD with camera rotation motion
+        double xRot = player.getRotationClient().x;
+        double yRot = player.getRotationClient().y;
+        // Smooth animation for less choppiness
+        swayX = MathHelper.clamp(MathHelper.lerp(speedFactor, swayX, swayX+((xRot - prevRotationX) * dragFactor))*dampingFactor, -12, 12);
+        swayY = MathHelper.clamp(MathHelper.lerp(speedFactor, swayY, swayY+((yRot - prevRotationY) * dragFactor))*dampingFactor, -12, 12);
+        prevRotationX = xRot;
+        prevRotationY = yRot;
+        printText(text, (int) (12-swayY), (int) (12-swayX), 0xFFA9E2FB, drawContext); // Finally, render the built/combined text
     }
     public static void updateIfNeeded() {
         if(Betadrive.updateAndroidStatus) {
             BetadriveClient.isAndroid = BetadriveConfig.getAndroidStatus(BetadriveClient.playerUUID);
             Betadrive.updateAndroidStatus = false;
+            BetadriveClient.isConverting = false;
+            clearAnimation = false;
         }
         if(Betadrive.updateBattery) {
             BetadriveClient.battery = BetadriveConfig.getBattery(BetadriveClient.playerUUID);
@@ -48,13 +66,15 @@ public class MeterHUD extends HUDStat {
     }
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         if(BetadriveClient.playerUUID == null) BetadriveClient.playerUUID = player.getUuid();
+        updateIfNeeded();
         if(BetadriveClient.isConverting) {
-            transformationAnimation(drawContext, renderTickCounter); // If we're converting, render the transformation animation (see: TransformationAnimation) instead
+            TransformationAnimation.transformationAnimation(drawContext, renderTickCounter); // If we're converting, render the transformation animation (see: TransformationAnimation) instead
             return; // Exit early to make sure android UI isn't also rendered too soon with the conversion animation
         }
-        updateIfNeeded();
-        boolean glitchedFlag = false;
-        if(player.isSubmergedInWater() && !BetadriveClient.isWaterResistant) glitchedFlag = true;
-        hudAnimation(drawContext, glitchedFlag); // Finally, render the android-only HUD animation
+        if(MeterHUD.clearAnimation || !BetadriveClient.isAndroid) { // Checks if (a) player turned back into human (i.e. via Blue Pill), or (b) player is not an android and is not converting.
+            if(!BetadriveClient.isConvertingBack) return; // If we didn't just take a blue pill/convert back to a human flag wasn't set, then exit early
+            TransformationAnimation.revertAnimation(drawContext, renderTickCounter); // Otherwise, run the transforming *back to human* animation
+        }
+        hudAnimation(drawContext, player.isSubmergedInWater() && !BetadriveClient.isWaterResistant); // Finally, render the android-only HUD animation
     }
 }

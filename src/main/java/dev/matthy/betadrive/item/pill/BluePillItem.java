@@ -31,6 +31,8 @@ public class BluePillItem extends Item { // betadrive:blue_pill. Turns player ba
             return ActionResult.FAIL;
         }
         BetadriveConfig.unBecomeAndroid(playerEntity.getUuid());
+        BetadriveClient.isConvertingBack = true;
+        TransformationAnimation.startRevert = true;
         MeterHUD.clearAnimation = true;
         playerEntity.getStackInHand(hand).decrement(1);
         return ActionResult.CONSUME;

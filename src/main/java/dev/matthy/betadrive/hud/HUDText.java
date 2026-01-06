@@ -17,10 +17,10 @@ public class HUDText {
     private final String statLabel;
     private final String statName;
     private final String itemName;
-    private final BiFunction<PlayerEntity, World,String> function; // Function that uses the player and the player's world for calculating any values. Client-side
+    private final BiFunction<PlayerEntity, World, String> function; // Function that uses the player and the player's world for calculating any values. Client-side
     private static final Random RANDOM = new Random();
     public static final char[] randomLetterChoices = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()[]{}:;,../<>".toCharArray();
-    public HUDText(String label, String name, BiFunction<PlayerEntity, World,String> value) {
+    public HUDText(String label, String name, BiFunction<PlayerEntity, World, String> value) {
         statLabel = label; // Used to label the stat, e.g. "HP" (health percent), "HGR" (hunger), "LVL" (XP level) as well as being used in the JSON config to check if this text is enabled for a player
         statName = name; // The full name of the stat (e.g. "battery" for the BAT label)
         itemName = statName+"_display_toggler"; // item name/ID

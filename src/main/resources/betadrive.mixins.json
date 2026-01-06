@@ -4,9 +4,7 @@
   "package": "dev.matthy.betadrive.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
-  "client":[
-      "InGameHudMixin"
-  ],
+  "client":[],
   "injectors": {
     "defaultRequire": 1
   }

@@ -1,4 +1,4 @@
-package dev.matthy.betadrive;
+package dev.matthy.betadrive.payload;
 
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;

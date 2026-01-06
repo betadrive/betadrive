@@ -5,6 +5,8 @@ import com.google.gson.reflect.TypeToken;
 import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.config.ConfigFile;
 import dev.matthy.betadrive.config.PlayerConfig;
+import dev.matthy.betadrive.payload.BatteryPayload;
+import dev.matthy.betadrive.payload.IsAndroidPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 import java.io.FileReader;

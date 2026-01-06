@@ -20,6 +20,12 @@
   "hud.betadrive.transformation_dialog_2_1": "Converting neurons... (%d%%)",
   "hud.betadrive.transformation_dialog_done": "...done. (%d%%)",
   "hud.betadrive.transformation_dialog_3_1": "Reconfiguring neural pathways... (%d%%)",
-  "hud.betadrive.transformation_dialog_4_1": "Finalizing transformation... (%d%%)"
+  "hud.betadrive.transformation_dialog_4_1": "Finalizing transformation... (%d%%)",
+  "commands.betadrive.playerIsAndroid": "%s is an android",
+  "commands.betadrive.playerIsNotAndroid": "%s is not an android",
+  "commands.betadrive.playerAssignAndroid": "%s is now an android",
+  "commands.betadrive.playerAssignNotAndroid": "%s is no longer an android",
+  "commands.betadrive.playerBatteryGet": "%s is at %.2f%% battery",
+  "commands.betadrive.playerBatterySet": "%s is now at %.2f%% battery"
 
 }
