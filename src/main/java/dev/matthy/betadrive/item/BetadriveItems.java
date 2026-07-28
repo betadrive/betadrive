@@ -5,57 +5,53 @@ import dev.matthy.betadrive.item.pill.BluePillItem;
 import dev.matthy.betadrive.item.pill.RedPillItem;
 import dev.matthy.betadrive.item.upgrade.AbsorptionUpgradeItem;
 import dev.matthy.betadrive.item.upgrade.WaterResistanceUpgradeItem;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ToolMaterial;
 
 import java.util.ArrayList;
 import java.util.function.Function;
 
 public class BetadriveItems { // Stores and registers all Betadrive items
     public static ArrayList<Item> groupAddable = new ArrayList<>();
-    public static Item CIRCUIT = register("circuit", Item::new, new Item.Settings()); // material, betadrive:circuit
-    public static Item ADVANCED_CIRCUIT = register("advanced_circuit", Item::new, new Item.Settings()); // material, betadrive:advanced_circuit
-//    public static Item BATTERY_DISPLAY_TOGGLER = register("battery_display_toggler", (settings) -> new DisplayTogglerItem(settings, "BAT"), new Item.Settings().maxCount(1));
-//    public static Item LEVEL_DISPLAY_TOGGLER = register("level_display_toggler", (settings) -> new DisplayTogglerItem(settings, "LVL"), new Item.Settings().maxCount(1));
-//    public static Item SPEED_DISPLAY_TOGGLER = register("speed_display_toggler", (settings) -> new DisplayTogglerItem(settings, "MPS"), new Item.Settings().maxCount(1));
-//    public static Item HEALTH_DISPLAY_TOGGLER = register("health_display_toggler", (settings) -> new DisplayTogglerItem(settings, "HP"), new Item.Settings().maxCount(1));
-//    public static Item HUNGER_DISPLAY_TOGGLER = register("hunger_display_toggler", (settings) -> new DisplayTogglerItem(settings, "HGR"), new Item.Settings().maxCount(1));
-    public static Item BATTERY = register("battery", BatteryItem::new, new Item.Settings()); // betadrive:battery
-    public static Item RED_PILL = register("red_pill", RedPillItem::new, new Item.Settings()); // used to become an android, betadrive:red_pill
-    public static Item BLUE_PILL = register("blue_pill", BluePillItem::new, new Item.Settings()); // used to not become an android, betadrive:blue_pill
-    public static Item ROBOFIST = register("robofist", properties -> new RobofistItem(ToolMaterial.NETHERITE, 20, 4.0F,properties), new Item.Settings()); // weapon, betadrive:robofist
-    public static Item ABSORPTION_UPGRADE = register("absorption_upgrade", AbsorptionUpgradeItem::new, new Item.Settings());
-    public static Item WATER_RESISTANCE_UPGRADE  = register("water_resistance_upgrade", WaterResistanceUpgradeItem::new, new Item.Settings());
-    public static final RegistryKey<ItemGroup> BETADRIVE_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of("betadrive", "item_group"));
-    public static final ItemGroup BETADRIVE_ITEM_GROUP = FabricItemGroup.builder()
+    public static Item CIRCUIT = register("circuit", Item::new, new Item.Properties()); // material, betadrive:circuit
+    public static Item ADVANCED_CIRCUIT = register("advanced_circuit", Item::new, new Item.Properties()); // material, betadrive:advanced_circuit
+    public static Item BATTERY = register("battery", BatteryItem::new, new Item.Properties()); // betadrive:battery
+    public static Item RED_PILL = register("red_pill", RedPillItem::new, new Item.Properties()); // used to become an android, betadrive:red_pill
+    public static Item BLUE_PILL = register("blue_pill", BluePillItem::new, new Item.Properties()); // used to not become an android, betadrive:blue_pill
+    public static Item ROBOFIST = register("robofist", properties -> new RobofistItem(ToolMaterial.DIAMOND, 20, 4.0F, properties), new Item.Properties()); // weapon, betadrive:robofist
+    public static Item ABSORPTION_UPGRADE = register("absorption_upgrade", AbsorptionUpgradeItem::new, new Item.Properties());
+    public static Item WATER_RESISTANCE_UPGRADE  = register("water_resistance_upgrade", WaterResistanceUpgradeItem::new, new Item.Properties());
+    public static final ResourceKey<CreativeModeTab> BETADRIVE_GROUP_KEY = ResourceKey.create(
+            BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath("betadrive", "creative_tab")
+    );
+    public static CreativeModeTab BETADRIVE_ITEM_GROUP = null;
+    public static final CreativeModeTab.Builder BETADRIVE_ITEM_GROUP_BUILDER = FabricCreativeModeTab.builder()
             .icon(() -> new ItemStack(CIRCUIT))
-            .displayName(Text.translatable("itemGroup.betadrive"))
-            .build();
-    public static Item register(String path, Function<Item.Settings, Item> factory, Item.Settings settings) { // register items
-        final RegistryKey<Item> registryKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of("betadrive", path));
-        Item item = Items.register(registryKey, factory, settings);
-        groupAddable.add(item);
-        return item;
+            .title(Component.translatable("itemGroup.betadrive"));
+    public static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
+        return register(name, itemFactory, settings, true);
     }
-    public static Item register(String path, Function<Item.Settings, Item> factory, Item.Settings settings, boolean includeInGroup) { // register items
-        final RegistryKey<Item> registryKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of("betadrive", path));
-        Item item = Items.register(registryKey, factory, settings);
+    public static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings, boolean includeInGroup) { // register items
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("betadrive", name));
+        Item item = itemFactory.apply(settings.setId(itemKey));
+        Registry.register(BuiltInRegistries.ITEM, itemKey, item);
         if(includeInGroup) groupAddable.add(item);
         return item;
     }
     public static void init() {
-        Registry.register(Registries.ITEM_GROUP, BETADRIVE_GROUP_KEY, BETADRIVE_ITEM_GROUP); // "Betadrive" item group
+        BETADRIVE_ITEM_GROUP = BETADRIVE_ITEM_GROUP_BUILDER.displayItems((params, output) -> {
+            for (Item item : groupAddable) output.accept(item); // add all the items put in groupAddable (via register override, includeInGroup=true, or not specified)
+        }).build();
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, BETADRIVE_GROUP_KEY, BETADRIVE_ITEM_GROUP); // "Betadrive" item group
         HUDTexts.init(); // get display togglers in the list too
-        ItemGroupEvents.modifyEntriesEvent(BETADRIVE_GROUP_KEY).register(itemGroup -> {
-            for (Item item : groupAddable)
-                itemGroup.add(item); // add all the items put in groupAddable (via register override, includeInGroup=true, or not specified)
-        });
     }
 }

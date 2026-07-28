@@ -1,22 +1,21 @@
 package dev.matthy.betadrive.item;
 
 import dev.matthy.betadrive.BetadriveConfig;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class BatteryItem extends Item { // betadrive:battery. Fills android battery
 
-    public BatteryItem(Settings settings) {
+    public BatteryItem(Item.Properties settings) {
         super(settings);
     }
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        BetadriveConfig.fillBattery(user.getUuid());
-        user.getHungerManager().setFoodLevel(20);
-        user.getHungerManager().setSaturationLevel(20);
-        user.getStackInHand(hand).decrement(1);
-        return ActionResult.CONSUME;
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+        BetadriveConfig.fillBattery(user.getUUID());
+        user.getFoodData().setFoodLevel(20);
+        user.getFoodData().setSaturation(20);
+        return InteractionResult.CONSUME;
     }
 }

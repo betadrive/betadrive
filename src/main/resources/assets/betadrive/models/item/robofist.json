@@ -3,6 +3,7 @@
   "textures": {
     "0": "betadrive:item/robofist_clean",
     "1": "betadrive:item/robofist_steel",
+    "missing": "betadrive:item/robofist_clean",
     "particle": "betadrive:item/robofist_clean"
   },
   "elements": [

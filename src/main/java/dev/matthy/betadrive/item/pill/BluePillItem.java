@@ -1,40 +1,37 @@
 package dev.matthy.betadrive.item.pill;
 
-import dev.matthy.betadrive.BetadriveConfig;
 import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.hud.MeterHUD;
 import dev.matthy.betadrive.hud.TransformationAnimation;
+import dev.matthy.betadrive.payload.IsAndroidPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class BluePillItem extends Item { // betadrive:blue_pill. Turns player back into a human
-    public BluePillItem(Settings settings) {
+    public BluePillItem(Item.Properties settings) {
         super(settings);
     }
     @Environment(EnvType.CLIENT)
     @Override
-    public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
-        if(!world.isClient()) return ActionResult.PASS;
-        if(MeterHUD.clearAnimation || !BetadriveConfig.getAndroidStatus(playerEntity.getUuid())) { // If clearAnimation is enabled, which is only caused thus far by the player already having taken the blue pill, then tell them they aren't an android
-            BetadriveClient.isAndroid = false;
+    public InteractionResult use(Level world, Player playerEntity, InteractionHand hand) {
+        if(!world.isClientSide()) return InteractionResult.FAIL;
+        if(MeterHUD.clearAnimation || !BetadriveClient.isAndroid) { // If clearAnimation is enabled, which is only caused thus far by the player already having taken the blue pill, then tell them they aren't an android
             BetadriveClient.isConverting = false;
             TransformationAnimation.getStartTimeFlag = true;
-            assert MinecraftClient.getInstance().player != null;
-            playerEntity.sendMessage(Text.translatable("item.betadrive.use.not_android_dialog"), true);
-            return ActionResult.FAIL;
+            playerEntity.sendOverlayMessage(Component.translatable("item.betadrive.use.not_android_dialog"));
+            return InteractionResult.FAIL;
         }
-        BetadriveConfig.unBecomeAndroid(playerEntity.getUuid());
+        ClientPlayNetworking.send(new IsAndroidPayload(playerEntity.getStringUUID(), false));
         BetadriveClient.isConvertingBack = true;
         TransformationAnimation.startRevert = true;
         MeterHUD.clearAnimation = true;
-        playerEntity.getStackInHand(hand).decrement(1);
-        return ActionResult.CONSUME;
+        return InteractionResult.CONSUME;
     }
 }

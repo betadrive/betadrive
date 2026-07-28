@@ -2,34 +2,33 @@ package dev.matthy.betadrive.item.upgrade;
 
 import dev.matthy.betadrive.BetadriveConfig;
 import dev.matthy.betadrive.config.PlayerConfig;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class UpgradeItem extends Item {
-    public UpgradeItem(Item.Settings settings) {
+    public UpgradeItem(Item.Properties settings) {
         super(settings);
     }
 
-    public boolean canRun(World world, PlayerEntity user, Hand hand, PlayerConfig config) {
-        if(!config.isAndroid) user.sendMessage(Text.translatable("item.betadrive.use.not_android_dialog"), true);
+    public boolean canRun(Level world, Player user, InteractionHand hand, PlayerConfig config) {
+        if(!config.isAndroid) user.sendOverlayMessage(Component.translatable("item.betadrive.use.not_android_dialog"));
         return config.isAndroid;
     }
-    public PlayerConfig modifyConfig(PlayerConfig cfg, World world, PlayerEntity user, Hand hand) {
+    public PlayerConfig modifyConfig(PlayerConfig cfg, Level world, Player user, InteractionHand hand) {
         return cfg;
     }
-    public void postUse(World world, PlayerEntity user, Hand hand) {}
+    public void postUse(Level world, Player user, InteractionHand hand) {}
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        PlayerConfig cfg = BetadriveConfig.getAndroidPlayerConfig(user.getUuid());
-        if(!canRun(world, user, hand, cfg)) return ActionResult.FAIL; // If the ActionResult is a fail, then follow that logic and return fail early
-        BetadriveConfig.setAndroidPlayerConfig(user.getUuid(), modifyConfig(cfg, world, user, hand)); //  Update config
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+        PlayerConfig cfg = BetadriveConfig.getAndroidPlayerConfig(user.getUUID());
+        if(!canRun(world, user, hand, cfg)) return InteractionResult.FAIL; // If the ActionResult is a fail, then follow that logic and return fail early
+        BetadriveConfig.setAndroidPlayerConfig(user.getUUID(), modifyConfig(cfg, world, user, hand)); //  Update config
         postUse(world, user, hand);
-        user.getStackInHand(hand).decrement(1); // consume
-        return ActionResult.CONSUME; // return that we consumed
+        return InteractionResult.CONSUME; // return that we consumed
     }
 }

@@ -1,36 +1,36 @@
 package dev.matthy.betadrive.item.pill;
 
-import dev.matthy.betadrive.BetadriveConfig;
 import dev.matthy.betadrive.client.BetadriveClient;
 import dev.matthy.betadrive.hud.MeterHUD;
+import dev.matthy.betadrive.payload.IsAndroidPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class RedPillItem extends Item { // betadrive:red_pill. Turns player into an android, the main focus of Betadrive
-    public RedPillItem(Settings settings) {
+    public RedPillItem(Item.Properties settings) {
         super(settings);
     }
     @Environment(EnvType.CLIENT)
     @Override
-    public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
-        if(!world.isClient()) return ActionResult.PASS;
-        if(BetadriveConfig.getAndroidStatus(playerEntity.getUuid())) {
-            BetadriveClient.isAndroid = true;
+    public InteractionResult use(Level level, Player player, final InteractionHand hand) {
+        if(!level.isClientSide()) return InteractionResult.FAIL;
+        if(BetadriveClient.isAndroid) {
             BetadriveClient.isConverting = false;
-            playerEntity.sendMessage(Text.translatable("item.betadrive.use.already_android_dialog"), true);
-            return ActionResult.FAIL;
+            player.sendOverlayMessage(Component.translatable("item.betadrive.use.already_android_dialog"));
+            return InteractionResult.FAIL;
         }
-        if(BetadriveClient.isConverting) return ActionResult.FAIL;
+        if(BetadriveClient.isConverting) return InteractionResult.FAIL;
         MeterHUD.clearAnimation = false;
         BetadriveClient.isConverting = true;
-        BetadriveConfig.becomeAndroid(playerEntity.getUuid()); // set cfg
-        playerEntity.getStackInHand(hand).decrement(1);
-        return ActionResult.CONSUME;
+        ClientPlayNetworking.send(new IsAndroidPayload(player.getStringUUID(), true));
+//        player.getMainHandItem().consume(1, player);
+        return InteractionResult.CONSUME;
     }
 }

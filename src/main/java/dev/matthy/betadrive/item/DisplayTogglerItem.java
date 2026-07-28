@@ -1,30 +1,34 @@
 package dev.matthy.betadrive.item;
 
-import dev.matthy.betadrive.BetadriveConfig;
 import dev.matthy.betadrive.client.BetadriveClient;
-import dev.matthy.betadrive.config.PlayerConfig;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import dev.matthy.betadrive.payload.HUDConfigPayload;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class DisplayTogglerItem extends Item {
     private final String propertyToSet;
-    public DisplayTogglerItem(Item.Settings settings, String propertyToSet) {
+    public DisplayTogglerItem(Item.Properties settings, String propertyToSet) {
         super(settings);
         this.propertyToSet = propertyToSet;
     }
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if(!world.isClient()) return ActionResult.SUCCESS; // .use(...) runs twice; once for client, once for server. We remove the server-based use event so that we don't turn on then immediately turn off the HUD element.
-        if(!BetadriveConfig.getAndroidStatus(user.getUuid()) || BetadriveClient.isConverting) { // If the player is not an android, then tell them and don't toggle the HUD because it will do nothing for them
-            user.sendMessage(Text.translatable("item.betadrive.use.not_android_dialog"), true);
-            return ActionResult.FAIL;
+    @Environment(EnvType.CLIENT)
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+        if(!world.isClientSide()) return InteractionResult.FAIL; // .use(...) runs twice; once for client, once for server. We remove the server-based use event so that we don't turn on then immediately turn off the HUD element.
+        if(!BetadriveClient.isAndroid || BetadriveClient.isConverting) { // If the player is not an android, then tell them and don't toggle the HUD because it will do nothing for them
+            user.sendOverlayMessage(Component.translatable("item.betadrive.use.not_android_dialog"));
+            return InteractionResult.FAIL;
         }
-        PlayerConfig cfg = BetadriveConfig.getAndroidPlayerConfig(user.getUuid());
-        cfg.whichToEnable.put(propertyToSet, !cfg.whichToEnable.getOrDefault(propertyToSet, false));
-        BetadriveConfig.setAndroidPlayerConfig(user.getUuid(), cfg);
-        return ActionResult.SUCCESS;
+        BetadriveClient.whichToEnable.put(this.propertyToSet, !BetadriveClient.whichToEnable.get(this.propertyToSet));
+        ClientPlayNetworking.send(new HUDConfigPayload(user.getStringUUID(), this.propertyToSet, BetadriveClient.whichToEnable.get(this.propertyToSet)));
+        return InteractionResult.SUCCESS;
     }
+
+
 }

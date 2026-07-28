@@ -1,25 +1,24 @@
 package dev.matthy.betadrive.item;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ToolMaterial;
 
 import java.util.Random;
 
 public class RobofistItem extends Item { // betadrive:robofist. A weapon with random direction knockback and a lot of damage
     private final Random RANDOM = new Random();
-    public RobofistItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, net.minecraft.item.Item.Settings settings) {
+    public RobofistItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Item.Properties settings) {
         super(settings.sword(toolMaterial, attackDamage, attackSpeed));
     }
 
     @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) { // On right click
-        entity.takeKnockback(5, RANDOM.nextFloat()*100, RANDOM.nextFloat()*100); // Random KB direction
-
-        return super.useOnEntity(stack, user, entity, hand);
+    public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity target, InteractionHand type) {
+        target.knockback(5, RANDOM.nextFloat()*100, RANDOM.nextFloat()*100); // Random KB direction
+        return super.interactLivingEntity(itemStack, player, target, type);
     }
 }

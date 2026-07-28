@@ -3,9 +3,9 @@ package dev.matthy.betadrive.hud;
 import dev.matthy.betadrive.client.BetadriveClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Util;
 
 import java.util.HashMap;
@@ -37,15 +37,15 @@ public class TransformationAnimation {
             if(value > closestUnderValue && value < num) closestUnderValue = value;
         return closestUnderValue;
     }
-    public static void transformationAnimation(DrawContext drawContext, RenderTickCounter renderTickCounter) { // text popup on screen that appears when taking red pill/converting to android
+    public static void transformationAnimation(GuiGraphicsExtractor drawContext) { // text popup on screen that appears when taking red pill/converting to android
         if(getStartTimeFlag) { // If we haven't gotten the start time of the animation, set it and don't run this again for this animation
-            startTime = Util.getMeasuringTimeMs()/50; // Get in ticks
+            startTime = Util.getMillis()/50; // Get in ticks
             getStartTimeFlag = false;
         }
-        int cyclesDone = (int) (Util.getMeasuringTimeMs()/50 - startTime); // Number of ticks since animation started
+        int cyclesDone = (int) (Util.getMillis()/50 - startTime); // Number of ticks since animation started
         if(!BetadriveClient.isConverting || cyclesDone >= animationSpeedMultiplier*21) return; // If we're actually not converting or the animation is done, then exit early
         String langKey = animationCues.get(closestUnder(cyclesDone));
-        Text translated = net.minecraft.text.Text.translatable(langKey, cyclesDone/animationSpeedMultiplier*5);
+        MutableComponent translated = Component.translatable(langKey, cyclesDone/animationSpeedMultiplier*5);
         printText(translated.getString(), 36, 50, 0xFFA9E2FB, drawContext);
         if(cyclesDone >= animationSpeedMultiplier*20) { // Reset for next red pill animation if needed
             BetadriveClient.isConverting = false; // disable isConverting
@@ -54,13 +54,13 @@ public class TransformationAnimation {
             startTime = 0; // Again, just reset the start time if the user takes blue pill then red pill again. This is likely unnecessary since getStartTimeFlag will get the new time before startTime has a chance to be used w/o being reset
         }
     }
-    public static void revertAnimation(DrawContext drawContext, RenderTickCounter renderTickCounter) {
+    public static void revertAnimation(GuiGraphicsExtractor drawContext) {
         if(startRevert) {
             charactersLeft = HUDText.build(MeterHUD.texts).length();
             getStartTimeFlag = true;
             startRevert = false;
         }
-        int cyclesDone = (int) (Util.getMeasuringTimeMs()/50 - startTime); // Number of ticks since animation started
+        int cyclesDone = (int) (Util.getMillis()/50 - startTime); // Number of ticks since animation started
         MeterHUD.textPrinting(drawContext, HUDText.randomString(charactersLeft));
         if(cyclesDone % 10 == 0) {
             charactersLeft--;
