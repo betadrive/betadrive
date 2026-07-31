@@ -26,10 +26,11 @@ public class BetadriveItems { // Stores and registers all Betadrive items
     public static Item ADVANCED_CIRCUIT = register("advanced_circuit", Item::new, new Item.Properties()); // material, betadrive:advanced_circuit
     public static Item BATTERY = register("battery", BatteryItem::new, new Item.Properties()); // betadrive:battery
     public static Item RED_PILL = register("red_pill", RedPillItem::new, new Item.Properties()); // used to become an android, betadrive:red_pill
-    public static Item BLUE_PILL = register("blue_pill", BluePillItem::new, new Item.Properties()); // used to not become an android, betadrive:blue_pill
+    public static Item BLUE_PILL = register("blue_pill", BluePillItem::new, new Item.Properties()); // used to become a human from an android, betadrive:blue_pill
+    public static Item GENERATOR = register("generator", GeneratorItem::new, new Item.Properties()); // gives a bit of battery when right clicked, betadrive:generator
     public static Item ROBOFIST = register("robofist", properties -> new RobofistItem(ToolMaterial.DIAMOND, 20, 4.0F, properties), new Item.Properties()); // weapon, betadrive:robofist
-    public static Item ABSORPTION_UPGRADE = register("absorption_upgrade", AbsorptionUpgradeItem::new, new Item.Properties());
-    public static Item WATER_RESISTANCE_UPGRADE  = register("water_resistance_upgrade", WaterResistanceUpgradeItem::new, new Item.Properties());
+    public static Item ABSORPTION_UPGRADE = register("absorption_upgrade", AbsorptionUpgradeItem::new, new Item.Properties()); // gives more health if android, betadrive:absorption_upgrade
+    public static Item WATER_RESISTANCE_UPGRADE  = register("water_resistance_upgrade", WaterResistanceUpgradeItem::new, new Item.Properties()); // fixes hud when underwater, betadrive:water_resistance_upgrade
     public static final ResourceKey<CreativeModeTab> BETADRIVE_GROUP_KEY = ResourceKey.create(
             BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath("betadrive", "creative_tab")
     );

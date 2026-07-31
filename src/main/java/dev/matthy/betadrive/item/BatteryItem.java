@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
-public class BatteryItem extends Item { // betadrive:battery. Fills android battery
+public class BatteryItem extends Item { // betadrive:battery. Fills android battery and hunger
 
     public BatteryItem(Item.Properties settings) {
         super(settings);
@@ -16,6 +16,7 @@ public class BatteryItem extends Item { // betadrive:battery. Fills android batt
         BetadriveConfig.fillBattery(user.getUUID());
         user.getFoodData().setFoodLevel(20);
         user.getFoodData().setSaturation(20);
+        user.getMainHandItem().consume(1, user);
         return InteractionResult.CONSUME;
     }
 }

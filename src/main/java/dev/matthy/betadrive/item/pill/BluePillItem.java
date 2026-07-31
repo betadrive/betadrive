@@ -32,6 +32,7 @@ public class BluePillItem extends Item { // betadrive:blue_pill. Turns player ba
         BetadriveClient.isConvertingBack = true;
         TransformationAnimation.startRevert = true;
         MeterHUD.clearAnimation = true;
+        playerEntity.getMainHandItem().consume(1, playerEntity);
         return InteractionResult.CONSUME;
     }
 }

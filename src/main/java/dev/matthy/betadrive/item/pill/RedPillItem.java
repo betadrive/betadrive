@@ -30,7 +30,7 @@ public class RedPillItem extends Item { // betadrive:red_pill. Turns player into
         MeterHUD.clearAnimation = false;
         BetadriveClient.isConverting = true;
         ClientPlayNetworking.send(new IsAndroidPayload(player.getStringUUID(), true));
-//        player.getMainHandItem().consume(1, player);
+        player.getMainHandItem().consume(1, player);
         return InteractionResult.CONSUME;
     }
 }

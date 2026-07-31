@@ -29,6 +29,7 @@ public class AbsorptionUpgradeItem extends UpgradeItem {
             user.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier(ABSORPTION_UPGRADE_ID, 2, AttributeModifier.Operation.ADD_VALUE));
             return;
         }
+        user.getMainHandItem().consume(1, user);
         user.getAttribute(Attributes.MAX_HEALTH).addOrReplacePermanentModifier(new AttributeModifier(ABSORPTION_UPGRADE_ID, newAbsorptionAmount, AttributeModifier.Operation.ADD_VALUE));
     }
 }

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i  ",
+    " cr",
+    " rc"
+  ],
+  "key": {
+    "c": "minecraft:copper_ingot",
+    "r": "minecraft:redstone",
+    "i": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "betadrive:generator",
+    "count": 1
+  }
+}
+
