@@ -53,7 +53,6 @@ public class BetadriveClient implements ClientModInitializer {
             player.getFoodData().setFoodLevel(Math.max(player.getFoodData().getFoodLevel() - 1, 0));
         });
         ClientPlayNetworking.registerGlobalReceiver(HUDConfigPayload.TYPE, (payload, context) -> {
-            System.out.println(payload.property()+"="+payload.active());
             whichToEnable.put(payload.property(), payload.active());
         });
 
