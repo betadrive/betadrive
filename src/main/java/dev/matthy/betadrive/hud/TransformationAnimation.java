@@ -45,7 +45,8 @@ public class TransformationAnimation {
         int cyclesDone = (int) (Util.getMillis()/50 - startTime); // Number of ticks since animation started
         if(!BetadriveClient.isConverting || cyclesDone >= animationSpeedMultiplier*21) return; // If we're actually not converting or the animation is done, then exit early
         String langKey = animationCues.get(closestUnder(cyclesDone));
-        MutableComponent translated = Component.translatable(langKey, cyclesDone/animationSpeedMultiplier*5);
+        // For some reason, Minecraft's i18n system doesn't work with fixed decimal points (at least in the dev environment), so we have to use Java's builtin system and then pass the decimal as string to the lang parser
+        MutableComponent translated = Component.translatable(langKey, String.format("%.2f", cyclesDone/animationSpeedMultiplier*5));
         printText(translated.getString(), 36, 50, 0xFFA9E2FB, drawContext);
         if(cyclesDone >= animationSpeedMultiplier*20) { // Reset for next red pill animation if needed
             BetadriveClient.isConverting = false; // disable isConverting
@@ -67,6 +68,7 @@ public class TransformationAnimation {
         }
         if(charactersLeft <= 0) {
             BetadriveClient.isConvertingBack = false;
+            BetadriveClient.isAndroid = false;
             getStartTimeFlag = true;
             startTime = 0;
         }

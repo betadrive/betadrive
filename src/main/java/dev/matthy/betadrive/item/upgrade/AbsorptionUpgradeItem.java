@@ -17,8 +17,8 @@ public class AbsorptionUpgradeItem extends UpgradeItem {
     }
     @Override
     public boolean canRun(Level world, Player user, InteractionHand hand, PlayerConfig config) {
-        if(user.getAttribute(Attributes.MAX_HEALTH) == null || user.getAttribute(Attributes.MAX_HEALTH).getModifier(ABSORPTION_UPGRADE_ID) == null) return true;
-        return user.getAttribute(Attributes.MAX_HEALTH).getModifier(ABSORPTION_UPGRADE_ID).amount() < 20;
+        return user.getAttribute(Attributes.MAX_HEALTH) == null || user.getAttribute(Attributes.MAX_HEALTH).getModifier(ABSORPTION_UPGRADE_ID) == null ||
+                user.getAttribute(Attributes.MAX_HEALTH).getModifier(ABSORPTION_UPGRADE_ID).amount() < 20;
     }
     @Override
     public void postUse(Level world, Player user, InteractionHand hand) {
