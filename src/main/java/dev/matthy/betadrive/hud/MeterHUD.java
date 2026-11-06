@@ -70,10 +70,8 @@ public class MeterHUD extends HUDStat {
             TransformationAnimation.transformationAnimation(drawContext); // If we're converting, render the transformation animation (see: TransformationAnimation) instead
             return; // Exit early to make sure android UI isn't also rendered too soon with the conversion animation
         }
-        if(MeterHUD.clearAnimation || !BetadriveClient.isAndroid) { // Checks if (a) player turned back into human (i.e. via Blue Pill), or (b) player is not an android and is not converting.
-            if(!BetadriveClient.isConvertingBack) return; // If we didn't just take a blue pill/convert back to a human flag wasn't set, then exit early
-            TransformationAnimation.revertAnimation(drawContext); // Otherwise, run the transforming *back to human* animation
-        }
+        if(BetadriveClient.isConvertingBack && (MeterHUD.clearAnimation || !BetadriveClient.isAndroid))  // Checks if (a) player turned back into human (i.e. via Blue Pill), or (b) player is not an android and is not converting.
+            TransformationAnimation.revertAnimation(drawContext); // Run the transforming *back to human* animation
         hudAnimation(drawContext, player.isUnderWater() && !BetadriveClient.isWaterResistant); // Finally, render the android-only HUD animation
     }
 }
